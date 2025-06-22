@@ -126,3 +126,13 @@ class SafetensorLoader:
 
         # Copy the data into the provided buffer
         buffer.copy_(tensor_view)
+def extract_safetensor_metadata(path: str) -> dict:
+    """
+    Reads only the header of a safetensor file to extract metadata.
+    """
+    with open(path, 'rb') as f:
+        header_len_bytes = f.read(8)
+        header_len = struct.unpack('<Q', header_len_bytes)[0]
+        header_json_bytes = f.read(header_len)
+        header = json.loads(header_json_bytes.decode('utf-8'))
+    return header

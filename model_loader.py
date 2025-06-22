@@ -8,29 +8,12 @@ creates dummy blueprints, and initializes InferenceScheduler for each model.
 import json
 from transformers import CLIPTextConfig, CLIPTextModel, T5Config, T5EncoderModel
 import torch
-from utils import ops
+from utils import ops 
 from utils.vae_model import Decoder, Encoder
+from utils.autoencoder import AutoencoderKL
+from utils.flux import Flux
 
-# A dummy class to stand in for the full AutoencoderKL
-class AutoencoderKL(torch.nn.Module):
-    def __init__(self, ddconfig, embed_dim):
-        super().__init__()
-        self.decoder = Decoder(**ddconfig)
-        self.encoder = Encoder(**ddconfig)
-        self.quant_conv = torch.nn.Conv2d(2 * ddconfig["z_channels"], 2 * embed_dim, 1)
-        self.post_quant_conv = torch.nn.Conv2d(embed_dim, ddconfig["z_channels"], 1)
-        self.embed_dim = embed_dim
-        self.config = {"scaling_factor": 0.18215} # Example value
-
-# A dummy class for the FLUX model
-class Flux(torch.nn.Module):
-    def __init__(self, **kwargs):
-        super().__init__()
-        # This is a simplified placeholder. The real scheduler will populate layers.
-        self.params = type('obj', (object,), kwargs)()
-
-
-from safetensor_loader import SafetensorLoader
+from safetensor_loader import SafetensorLoader, extract_safetensor_metadata
 from scheduler import FluxScheduler, VAEScheduler, T5Scheduler, CLIPScheduler
 from mem_allocator import MemoryAllocator
 
