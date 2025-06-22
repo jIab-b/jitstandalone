@@ -261,11 +261,11 @@ class AutoencodingEngineLegacy(AutoencodingEngine):
         ddconfig = kwargs.pop("ddconfig")
         super().__init__(
             encoder_config={
-                "target": "comfy.ldm.modules.diffusionmodules.model.Encoder",
+                "target": "utils.vae_model.Encoder",
                 "params": ddconfig,
             },
             decoder_config={
-                "target": "comfy.ldm.modules.diffusionmodules.model.Decoder",
+                "target": "utils.vae_model.Decoder",
                 "params": ddconfig,
             },
             **kwargs,
@@ -336,7 +336,7 @@ class AutoencoderKL(AutoencodingEngineLegacy):
         super().__init__(
             regularizer_config={
                 "target": (
-                    "__main__.DiagonalGaussianRegularizer"
+                    "utils.autoencoder.DiagonalGaussianRegularizer"
                 )
             },
             **kwargs,
