@@ -31,13 +31,17 @@ def run_inference(prompt: str, output_path: str = "jitstandalone/output.png", qu
     flux_scheduler = schedulers["flux"]
     vae_scheduler = schedulers["vae"]
 
+
     # 2. Tokenize prompt
     # These paths point to the original jitloader directory for space efficiency
-    t5_tokenizer = T5Tokenizer.from_pretrained("jitloader/t5_tokenizer")
-    clip_tokenizer = CLIPTokenizer.from_pretrained("jitloader/clip_tokenizer")
+    t5_tokenizer = T5Tokenizer.from_pretrained("../../ComfyUI/jitloader/t5_tokenizer")
+    clip_tokenizer = CLIPTokenizer.from_pretrained("../../ComfyUI/jitloader/clip_tokenizer")
     
     t5_tokens = t5_tokenizer(prompt, return_tensors="pt", padding=True).input_ids.to(device)
     clip_tokens = clip_tokenizer(prompt, return_tensors="pt", padding=True).input_ids.to(device)
+
+    del t5_tokenizer
+    del clip_tokenizer
 
     # 3. Run Text Encoders in sequence
     print("Running T5 encoder...")

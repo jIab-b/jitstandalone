@@ -4,7 +4,7 @@ import torch
 from torch import Tensor, nn
 from einops import rearrange, repeat
 import importlib
-
+from . import common
 from utils.flux_layers import (
     DoubleStreamBlock,
     EmbedND,
@@ -189,7 +189,7 @@ class Flux(nn.Module):
     def forward(self, x, timestep, context, y=None, guidance=None, control=None, transformer_options={}, **kwargs):
         bs, c, h, w = x.shape
         patch_size = self.patch_size
-        x = pad_to_patch_size(x, (patch_size, patch_size))
+        x = common.pad_to_patch_size(x, (patch_size, patch_size))
 
         img = rearrange(x, "b c (h ph) (w pw) -> b (h w) (c ph pw)", ph=patch_size, pw=patch_size)
 

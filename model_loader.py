@@ -17,6 +17,12 @@ from scheduler import FluxScheduler, VAEScheduler, T5Scheduler, CLIPScheduler
 from mem_allocator import MemoryAllocator
 
 
+from utils.mem_util import print_memory_usage
+
+
+
+
+
 def _load_vae_model_config():
     """
     Returns the hardcoded VAE configuration.
@@ -86,7 +92,7 @@ def _load_t5_weight_map(path: str):
         return json.load(f)
 
 
-def load_pipeline(device: str = "cuda", quant_config: str = None, cpu_pool_size: int = 2*1024*1024*1024, gpu_pool_size: int = 4*1024*1024*1024):
+def load_pipeline(device: str = "cuda", quant_config: str = None, cpu_pool_size: int = 4*1024*1024*1024, gpu_pool_size: int = 4*1024*1024*1024):
     """
     Loads metadata-only safetensor files and returns initialized schedulers.
     Returns:
@@ -99,24 +105,50 @@ def load_pipeline(device: str = "cuda", quant_config: str = None, cpu_pool_size:
     flux_path = "../../ComfyUI/jitloader/transformer/flux1-dev.safetensors"
 
     # --- Create Model Blueprints on 'meta' device ---
-    clip_config = CLIPTextConfig(**_load_clip_config(clip_path))
-    clip_blueprint = CLIPTextModel(clip_config).to("meta")
+    # clip_config = CLIPTextConfig(**_load_clip_config(clip_path))
+    # clip_blueprint = CLIPTextModel(clip_config).to("meta")
 
-    t5_config_dict = _load_t5_config(t5_path)
-    t5_config = T5Config.from_dict(t5_config_dict)
-    t5_config.use_cache = False
-    t5_blueprint = T5EncoderModel(t5_config).to("meta")
+    # print('loaded clip')
+    # t5_config_dict = _load_t5_config(t5_path)
+    # t5_config = T5Config.from_dict(t5_config_dict)
+    # t5_config.use_cache = False
+    # t5_blueprint = T5EncoderModel(t5_config).to("meta")
+
+    # print('loaded t5')
+    # vae_config = _load_vae_model_config()
+    # vae_blueprint = AutoencoderKL(**vae_config).to("meta")
+
+    # print('loaded vae')
+    # flux_config = _load_flux_model_config()
+
+    # flux_blueprint = Flux(**flux_config, operations=ops.disable_weight_init).to("meta")
 
 
-    vae_config = _load_vae_model_config()
-    vae_blueprint = AutoencoderKL(**vae_config).to("meta")
 
-    flux_config = _load_flux_model_config()
-    flux_blueprint = Flux(**flux_config).to("meta")
+# --- Create Model Blueprints on 'meta' device ---
+    with torch.device("meta"):
+        clip_config = CLIPTextConfig(**_load_clip_config(clip_path))
+        clip_blueprint = CLIPTextModel(clip_config)
 
+        t5_config_dict = _load_t5_config(t5_path)
+        t5_config = T5Config.from_dict(t5_config_dict)
+        t5_config.use_cache = False
+        t5_blueprint = T5EncoderModel(t5_config)
+
+        vae_config = _load_vae_model_config()
+        vae_blueprint = AutoencoderKL(**vae_config)
+
+        flux_config = _load_flux_model_config()
+        # The ops.disable_weight_init is a good custom safety, but the 'meta'
+        # device context is the primary mechanism that prevents allocation.
+        flux_blueprint = Flux(**flux_config, operations=ops.disable_weight_init)
+
+
+    print('loaded all models')
     # Initialize memory allocator
     allocator = MemoryAllocator(cpu_pool_size, gpu_pool_size, device)
 
+    print('inited mem allocator')
     # Initialize schedulers
     clip_scheduler = CLIPScheduler(clip_path, clip_blueprint, allocator, device=device, quant_config=quant_config)
     t5_model_dir = "../../ComfyUI/jitloader/t5"
