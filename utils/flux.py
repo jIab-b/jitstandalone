@@ -5,7 +5,7 @@ from torch import Tensor, nn
 from einops import rearrange, repeat
 import importlib
 
-from flux_layers import (
+from utils.flux_layers import (
     DoubleStreamBlock,
     EmbedND,
     LastLayer,
@@ -34,7 +34,7 @@ class FluxParams:
 
 
 class Flux(nn.Module):
-    def __init__(self, image_model=None, final_layer=True, dtype=None, device=None, operations=disable_weight_init, **kwargs):
+    def __init__(self, image_model=None, final_layer=True, dtype=None, device=None, operations=None, **kwargs):
         super().__init__()
         self.dtype = dtype
         params = FluxParams(**kwargs)

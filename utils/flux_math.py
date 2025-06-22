@@ -3,8 +3,8 @@ from einops import rearrange
 from torch import Tensor
 
 # This will need to be updated to point to the VAE attention
-from utils.vae_model import vae_attention as optimized_attention
-import model_management
+from utils.vae_model_orig import vae_attention as optimized_attention
+from . import model_management
 
 
 def attention(q: Tensor, k: Tensor, v: Tensor, pe: Tensor, mask=None) -> Tensor:

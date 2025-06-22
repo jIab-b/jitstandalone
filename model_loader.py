@@ -9,7 +9,6 @@ import json
 from transformers import CLIPTextConfig, CLIPTextModel, T5Config, T5EncoderModel
 import torch
 from utils import ops 
-from utils.vae_model import Decoder, Encoder
 from utils.autoencoder import AutoencoderKL
 from utils.flux import Flux
 

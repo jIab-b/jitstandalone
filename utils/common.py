@@ -1,5 +1,5 @@
 import torch
-import rmsnorm
+from . import rmsnorm
 
 
 def pad_to_patch_size(img, patch_size=(2, 2), padding_mode="circular"):

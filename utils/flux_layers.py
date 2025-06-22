@@ -5,8 +5,9 @@ import torch
 from torch import Tensor, nn
 
 from utils.flux_math import attention, rope
-import ops
-import common
+from . import ops
+
+from . import common
 
 class EmbedND(nn.Module):
     def __init__(self, dim: int, theta: int, axes_dim: list):

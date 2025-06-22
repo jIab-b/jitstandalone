@@ -1,7 +1,7 @@
 import torch
 import logging
-import model_management
-import rmsnorm
+from . import model_management
+from . import rmsnorm
 import contextlib
 
 def cast_to_input(weight, input, non_blocking=False, copy=True):

@@ -1,5 +1,5 @@
 import torch
-import model_management
+from . import model_management
 import numbers
 
 RMSNorm = None
