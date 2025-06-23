@@ -162,7 +162,7 @@ def load_pipeline(device: str = "cuda", quant_config: str = None, cpu_pool_size:
         "t5": t5_scheduler,
         "vae": vae_scheduler,
         "flux": flux_scheduler,
-    }
+    }, allocator
 
 
 if __name__ == "__main__":

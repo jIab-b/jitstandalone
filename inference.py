@@ -25,15 +25,14 @@ def run_inference(prompt: str, output_path: str = "jitstandalone/output.png", qu
     # 1. Load all model schedulers and allocator
     cpu_pool_size = cpu_pool_gb * 1024 * 1024 * 1024
     gpu_pool_size = gpu_pool_gb * 1024 * 1024 * 1024
-    schedulers = load_pipeline(device, quant_config=quant_config, cpu_pool_size=cpu_pool_size, gpu_pool_size=gpu_pool_size)
+    schedulers, allocator = load_pipeline(device, quant_config=quant_config, cpu_pool_size=cpu_pool_size, gpu_pool_size=gpu_pool_size)
     t5_scheduler = schedulers["t5"]
     clip_scheduler = schedulers["clip"]
     flux_scheduler = schedulers["flux"]
     vae_scheduler = schedulers["vae"]
 
 
-    # 2. Tokenize prompt
-    # These paths point to the original jitloader directory for space efficiency
+
     t5_tokenizer = T5Tokenizer.from_pretrained("../../ComfyUI/jitloader/t5_tokenizer")
     clip_tokenizer = CLIPTokenizer.from_pretrained("../../ComfyUI/jitloader/clip_tokenizer")
     
@@ -55,7 +54,11 @@ def run_inference(prompt: str, output_path: str = "jitstandalone/output.png", qu
     # 4. Prepare inputs for FLUX
     context = torch.cat([t5_embeddings, clip_embeddings], dim=1)
     # Create a dummy pooled vector for now
-    y = torch.randn(1, t5_scheduler.blueprint.config.d_model + clip_scheduler.blueprint.config.hidden_size, device=device)
+    y_shape = (1, t5_scheduler.blueprint.config.d_model + clip_scheduler.blueprint.config.hidden_size)
+    y_size_bytes = y_shape[0] * y_shape[1] * 4
+    y_buffer = allocator.allocate(y_size_bytes, device)
+    y = y_buffer.view(torch.float32).reshape(y_shape)
+    y.normal_()
 
     # Latent noise
     height, width = 1024, 1024
@@ -63,7 +66,14 @@ def run_inference(prompt: str, output_path: str = "jitstandalone/output.png", qu
     latent_height = height // patch_size
     latent_width = width // patch_size
     latent_channels = flux_scheduler.blueprint.in_channels
-    latents = torch.randn(1, latent_channels, latent_height, latent_width, device=device)
+    
+    latent_shape = (1, latent_channels, latent_height, latent_width)
+    n_elements = 1 * latent_channels * latent_height * latent_width
+    latent_size_bytes = n_elements * 4
+    latents_buffer = allocator.allocate(latent_size_bytes, device)
+    latents = latents_buffer.view(torch.float32).reshape(latent_shape)
+    latents.normal_()
+
     timestep = torch.tensor([999], device=device)
 
     # 5. Run the FLUX model
