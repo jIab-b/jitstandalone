@@ -23,17 +23,22 @@ from utils.mem_util import print_memory_usage
 
 
 
-def _get_max_module_size(model_blueprint: torch.nn.Module):
+def _calculate_max_module_size_for_plan(blueprint: torch.nn.Module, plan: list):
     """
-    Calculates the size of each module in a blueprint and returns the maximum size.
+    Calculates the size of each module specified in an execution plan and returns the maximum size.
     """
     max_size = 0
-    for name, module in model_blueprint.named_modules():
-        module_size = 0
-        for param in module.parameters():
-            module_size += param.numel() * param.element_size()
-        if module_size > max_size:
-            max_size = module_size
+    for layer_name in plan:
+        try:
+            submodule = blueprint.get_submodule(layer_name)
+            module_size = 0
+            for param in submodule.parameters():
+                module_size += param.numel() * param.element_size()
+            if module_size > max_size:
+                max_size = module_size
+        except AttributeError:
+            # This can happen if a layer in the plan is not a real module, which is fine.
+            pass
     return max_size
 
 
@@ -159,13 +164,32 @@ def load_pipeline(device: str = "cuda", quant_config: str = None, cpu_pool_size:
 
 
     print('loaded all models')
-    # --- Calculate Max Module Size ---
-    max_clip_module = _get_max_module_size(clip_blueprint)
-    max_t5_module = _get_max_module_size(t5_blueprint)
-    max_vae_module = _get_max_module_size(vae_blueprint)
-    max_flux_module = _get_max_module_size(flux_blueprint)
-    
-    max_module_size = max(max_clip_module, max_t5_module, max_vae_module, max_flux_module)
+    # --- Define Execution Plans to Calculate Max Module Size ---
+    flux_plan = ['img_in', 'time_in', 'guidance_in', 'vector_in', 'txt_in', 'pe_embedder']
+    flux_plan.extend([f'double_blocks.{i}' for i in range(len(flux_blueprint.double_blocks))])
+    flux_plan.extend([f'single_blocks.{i}' for i in range(len(flux_blueprint.single_blocks))])
+    flux_plan.append('final_layer')
+
+    vae_plan = ['post_quant_conv', 'decoder.conv_in', 'decoder.mid.block_1', 'decoder.mid.attn_1', 'decoder.mid.block_2']
+    for i in reversed(range(vae_blueprint.decoder.num_resolutions)):
+        for j in range(vae_blueprint.decoder.num_res_blocks + 1):
+            vae_plan.append(f'decoder.up.{i}.block.{j}')
+        if vae_blueprint.decoder.up[i].attn:
+            vae_plan.append(f'decoder.up.{i}.attn.0')
+        if i != 0:
+            vae_plan.append(f'decoder.up.{i}.upsample')
+    vae_plan.extend(['decoder.norm_out', 'decoder.conv_out'])
+
+    t5_plan = ['shared'] + [f'encoder.block.{i}' for i in range(len(t5_blueprint.encoder.block))] + ['encoder.final_layer_norm']
+    clip_plan = ['text_model.embeddings'] + [f'text_model.encoder.layers.{i}' for i in range(len(clip_blueprint.text_model.encoder.layers))] + ['text_model.final_layer_norm']
+
+    # --- Calculate True Max Module Size ---
+    max_flux_module = _calculate_max_module_size_for_plan(flux_blueprint, flux_plan)
+    max_vae_module = _calculate_max_module_size_for_plan(vae_blueprint, vae_plan)
+    max_t5_module = _calculate_max_module_size_for_plan(t5_blueprint, t5_plan)
+    max_clip_module = _calculate_max_module_size_for_plan(clip_blueprint, clip_plan)
+
+    max_module_size = max(max_flux_module, max_vae_module, max_t5_module, max_clip_module)
     print(f"Determined max module size across all models: {max_module_size / 1e6:.2f} MB")
 
     # Initialize memory allocator

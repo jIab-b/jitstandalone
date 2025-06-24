@@ -235,7 +235,11 @@ class T5Scheduler(BaseScheduler):
         position_bias = None
         extended_attention_mask = None
 
-        for i, layer_name in enumerate(plan):
+        # Initial fetch and load to GPU to prime the pipeline
+        cpu_future = self.prefetch_queue.get()
+        gpu_future = self.executor.submit(self._load_layer_to_gpu, cpu_future.result(), 0, streams[0])
+
+        for i in range(len(plan)):
             buffer_id = i % 2
             stream = streams[buffer_id]
             

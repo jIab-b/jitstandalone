@@ -136,3 +136,28 @@ def extract_safetensor_metadata(path: str) -> dict:
         header_json_bytes = f.read(header_len)
         header = json.loads(header_json_bytes.decode('utf-8'))
     return header
+
+if __name__ == '__main__':
+    import argparse
+    import sys
+
+    parser = argparse.ArgumentParser(description="Extract safetensor metadata to a file.")
+    parser.add_argument("input_file", type=str, help="Path to the .safetensors file.")
+    parser.add_argument("output_file", type=str, help="Path to save the metadata JSON file.")
+    
+    args = parser.parse_args()
+
+    if not os.path.exists(args.input_file):
+        print(f"Error: Input file not found at {args.input_file}", file=sys.stderr)
+        sys.exit(1)
+
+    metadata = extract_safetensor_metadata(args.input_file)
+    
+    output_dir = os.path.dirname(args.output_file)
+    if output_dir:
+        os.makedirs(output_dir, exist_ok=True)
+
+    with open(args.output_file, 'w') as f:
+        json.dump(metadata, f, indent=4)
+        
+    print(f"Metadata from {args.input_file} saved to {args.output_file}")
