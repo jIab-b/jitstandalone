@@ -46,6 +46,8 @@ def run_inference(prompt: str, output_path: str = "jitstandalone/output.png", qu
     print("Running T5 encoder...")
     t5_embeddings = t5_scheduler.run_encoder_inference(t5_tokens)
     print("T5 encoder finished.")
+    print(t5_embeddings)
+    return
 
     print("Running CLIP encoder...")
     clip_embeddings = clip_scheduler.run_encoder_inference(clip_tokens)
