@@ -25,7 +25,7 @@ def run_inference(prompt: str, output_path: str = "jitstandalone/output.png", qu
     # 1. Load all model schedulers and allocator
     cpu_pool_size = cpu_pool_gb * 1024 * 1024 * 1024 
     gpu_pool_size = gpu_pool_gb * 1024 * 1024 * 1024 
-    schedulers, allocator = load_pipeline(device, quant_config=quant_config, cpu_pool_size=cpu_pool_size, gpu_pool_size=gpu_pool_size)
+    schedulers, allocator = load_pipeline(device, quant_config=quant_config, cpu_pool_size=cpu_pool_size, total_vram_limit=gpu_pool_size)
     t5_scheduler = schedulers["t5"]
     clip_scheduler = schedulers["clip"]
     flux_scheduler = schedulers["flux"]

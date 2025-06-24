@@ -23,6 +23,20 @@ from utils.mem_util import print_memory_usage
 
 
 
+def _get_max_module_size(model_blueprint: torch.nn.Module):
+    """
+    Calculates the size of each module in a blueprint and returns the maximum size.
+    """
+    max_size = 0
+    for name, module in model_blueprint.named_modules():
+        module_size = 0
+        for param in module.parameters():
+            module_size += param.numel() * param.element_size()
+        if module_size > max_size:
+            max_size = module_size
+    return max_size
+
+
 def _load_vae_model_config():
     """
     Returns the hardcoded VAE configuration.
@@ -92,7 +106,7 @@ def _load_t5_weight_map(path: str):
         return json.load(f)
 
 
-def load_pipeline(device: str = "cuda", quant_config: str = None, cpu_pool_size: int = 4*1024*1024*1024, gpu_pool_size: int = 4*1024*1024*1024):
+def load_pipeline(device: str = "cuda", quant_config: str = None, cpu_pool_size: int = 6*1024*1024*1024, total_vram_limit: int = 6*1024*1024*1024):
     """
     Loads metadata-only safetensor files and returns initialized schedulers.
     Returns:
@@ -145,8 +159,17 @@ def load_pipeline(device: str = "cuda", quant_config: str = None, cpu_pool_size:
 
 
     print('loaded all models')
+    # --- Calculate Max Module Size ---
+    max_clip_module = _get_max_module_size(clip_blueprint)
+    max_t5_module = _get_max_module_size(t5_blueprint)
+    max_vae_module = _get_max_module_size(vae_blueprint)
+    max_flux_module = _get_max_module_size(flux_blueprint)
+    
+    max_module_size = max(max_clip_module, max_t5_module, max_vae_module, max_flux_module)
+    print(f"Determined max module size across all models: {max_module_size / 1e6:.2f} MB")
+
     # Initialize memory allocator
-    allocator = MemoryAllocator(cpu_pool_size, gpu_pool_size, device)
+    allocator = MemoryAllocator(total_vram_limit, max_module_size, cpu_pool_size, device)
 
     print('inited mem allocator')
     # Initialize schedulers
