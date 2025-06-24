@@ -1,27 +1,59 @@
 #include <torch/extension.h>
 
 // Forward declaration of the CUDA kernel launcher
-void t5_block_forward_cuda_launcher(
+// Forward declaration of the templated CUDA kernel launcher implementation
+template <typename T>
+void t5_block_forward_cuda_launcher_impl(
     const torch::Tensor& hidden_states,
-    const torch::Tensor& residual,
-    // ... other tensor arguments will be added here
+    const torch::Tensor& position_bias,
+    const torch::Tensor& attention_mask,
+    const torch::Tensor& norm1_weight,
+    const torch::Tensor& q_weight,
+    const torch::Tensor& k_weight,
+    const torch::Tensor& v_weight,
+    const torch::Tensor& o_weight,
+    const torch::Tensor& norm2_weight,
+    const torch::Tensor& wi0_weight,
+    const torch::Tensor& wi1_weight,
+    const torch::Tensor& wo_weight,
     torch::Tensor& output
 );
 
 // C++ wrapper function that will be called from Python
 void t5_block_forward(
     const torch::Tensor& hidden_states,
-    const torch::Tensor& residual,
-    // ...
+    const torch::Tensor& position_bias,
+    const torch::Tensor& attention_mask,
+    const torch::Tensor& norm1_weight,
+    const torch::Tensor& q_weight,
+    const torch::Tensor& k_weight,
+    const torch::Tensor& v_weight,
+    const torch::Tensor& o_weight,
+    const torch::Tensor& norm2_weight,
+    const torch::Tensor& wi0_weight,
+    const torch::Tensor& wi1_weight,
+    const torch::Tensor& wo_weight,
     torch::Tensor& output
 ) {
-    // Perform checks on input tensors
-    TORCH_CHECK(hidden_states.is_cuda(), "hidden_states must be a CUDA tensor");
-    TORCH_CHECK(residual.is_cuda(), "residual must be a CUDA tensor");
-    TORCH_CHECK(output.is_cuda(), "output must be a CUDA tensor");
-
-    // Call the CUDA kernel launcher
-    t5_block_forward_cuda_launcher(hidden_states, residual, output);
+    // Manually dispatch to the correct templated C++ function based on the input tensor's dtype
+    // to avoid compiling for unused types like 'double'.
+    if (hidden_states.scalar_type() == at::kFloat) {
+        t5_block_forward_cuda_launcher_impl<float>(
+            hidden_states, position_bias, attention_mask,
+            norm1_weight, q_weight, k_weight, v_weight, o_weight,
+            norm2_weight, wi0_weight, wi1_weight, wo_weight,
+            output
+        );
+    } else if (hidden_states.scalar_type() == at::kBFloat16) {
+        t5_block_forward_cuda_launcher_impl<at::BFloat16>(
+            hidden_states, position_bias, attention_mask,
+            norm1_weight, q_weight, k_weight, v_weight, o_weight,
+            norm2_weight, wi0_weight, wi1_weight, wo_weight,
+            output
+        );
+    } else {
+        AT_ERROR("t5_block_forward only supports Float and BFloat16, but got ", hidden_states.scalar_type());
+    }
 }
 
 // Binding the C++ function to the Python module

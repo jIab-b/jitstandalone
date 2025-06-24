@@ -298,7 +298,8 @@ class T5Scheduler(BaseScheduler):
 
                         # Layer 1 (Feed-Forward) Weights
                         gpu_handles['layer.1.layer_norm.weight'],
-                        gpu_handles['layer.1.DenseReluDense.wi.weight'],
+                        gpu_handles['layer.1.DenseReluDense.wi_0.weight'],
+                        gpu_handles['layer.1.DenseReluDense.wi_1.weight'],
                         gpu_handles['layer.1.DenseReluDense.wo.weight'],
 
                         # Output Tensor
