@@ -15,7 +15,7 @@ from transformers import T5Tokenizer, CLIPTokenizer
 
 from model_loader import load_pipeline
 
-def run_inference(prompt: str, output_path: str = "jitstandalone/output.png", quant_config: str = None, cpu_pool_gb: int = 4, gpu_pool_gb: int = 6):
+def run_inference(prompt: str, output_path: str = "jitstandalone/output.png", quant_config: str = None, cpu_pool_gb: int = 4, gpu_pool_gb: int = 4):
     """
     Runs the full JIT inference pipeline with sequential text encoders.
     """

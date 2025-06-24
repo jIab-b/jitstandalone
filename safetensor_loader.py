@@ -97,7 +97,8 @@ class SafetensorLoader:
 
     def load_tensor_into(self, name: str, buffer: torch.Tensor):
         """
-        Loads a tensor from disk directly into a pre-allocated buffer.
+        Loads a tensor from disk directly into a pre-allocated buffer using a
+        zero-copy view into the memory-mapped file.
         """
         info = self.get_tensor_info(name)
         filename = self.weight_map.get(name, '__single__')
@@ -112,19 +113,24 @@ class SafetensorLoader:
         data_len = offsets[1] - offsets[0]
         
         data_offset = data_start_offset + offsets[0]
-        data = mmap_obj[data_offset : data_offset + data_len]
-        
-        if info['dtype'] == 'BF16':
-            # NumPy doesn't have a bfloat16, so we read as uint16 and view as bfloat16 in torch
-            np_buffer = np.frombuffer(data, dtype=np.uint16).reshape(shape)
-            tensor_view = torch.from_numpy(np_buffer.copy()).view(torch.bfloat16)
-        else:
-            # Create a numpy array view of the buffer without copying
-            np_buffer = np.frombuffer(data, dtype=NUMPY_DTYPE_MAP[info['dtype']]).reshape(shape)
-            # Create a torch tensor from the numpy array without copying
-            tensor_view = torch.from_numpy(np_buffer.copy())
 
-        # Copy the data into the provided buffer
+        # Create a NumPy array that is a zero-copy view into the mmap object.
+        # This avoids creating intermediate copies in memory.
+        if info['dtype'] == 'BF16':
+            # NumPy doesn't have bfloat16, so we view the raw uint16 bytes.
+            np_dtype = np.uint16
+        else:
+            np_dtype = NUMPY_DTYPE_MAP[info['dtype']]
+
+        np_view = np.frombuffer(mmap_obj, dtype=np_dtype, count=data_len // np.dtype(np_dtype).itemsize, offset=data_offset).reshape(shape)
+        
+        # Create a torch tensor that views the numpy array, still no copy.
+        tensor_view = torch.from_numpy(np_view)
+
+        if info['dtype'] == 'BF16':
+            tensor_view = tensor_view.view(torch.bfloat16)
+
+        # The only copy happens here, directly into the target buffer.
         buffer.copy_(tensor_view)
 def extract_safetensor_metadata(path: str) -> dict:
     """
