@@ -201,6 +201,8 @@ def load_pipeline(device: str = "cuda", quant_config: str = None, cpu_pool_size:
     t5_model_dir = "../../ComfyUI/jitloader/t5"
     t5_weight_map = _load_t5_weight_map("../../ComfyUI/jitloader/t5/model.safetensors.index.json")
     t5_scheduler = T5Scheduler(t5_model_dir, t5_blueprint, allocator, device=device, model_config=t5_weight_map, quant_config=quant_config)
+    
+
     vae_scheduler = VAEScheduler(vae_path, vae_blueprint, allocator, device=device, quant_config=quant_config)
     flux_scheduler = FluxScheduler(flux_path, flux_blueprint, allocator, device=device, quant_config=quant_config)
 

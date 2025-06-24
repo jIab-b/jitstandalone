@@ -132,6 +132,42 @@ class SafetensorLoader:
 
         # The only copy happens here, directly into the target buffer.
         buffer.copy_(tensor_view)
+
+    def debug_print_all_tensor_info(self):
+        """
+        Prints a detailed report of every tensor the loader has metadata for,
+        including its file location and byte offsets.
+        """
+        print("\n--- SafetensorLoader Debug Report ---")
+        for filename, header in self.headers.items():
+            print(f"\n[File: {filename}]")
+            data_start_offset = self.data_start_offsets[filename]
+            
+            # Sort tensors by their starting offset for readability
+            sorted_tensors = sorted(header.items(), key=lambda item: item[1].get('data_offsets', [0])[0])
+            
+            for name, info in sorted_tensors:
+                if name == '__metadata__':
+                    continue
+                
+                offsets = info.get('data_offsets')
+                if not offsets:
+                    print(f"  - {name}: (Metadata only, no data offsets)")
+                    continue
+                    
+                start_offset, end_offset = offsets
+                absolute_start = data_start_offset + start_offset
+                size_mb = (end_offset - start_offset) / 1e6
+                
+                print(f"  - {name}")
+                print(f"    - Shape: {info['shape']}")
+                print(f"    - DType: {info['dtype']}")
+                print(f"    - Size: {size_mb:.4f} MB")
+                print(f"    - Relative Offsets: [{start_offset}, {end_offset}]")
+                print(f"    - Absolute Offsets: [{absolute_start}, {absolute_start + (end_offset - start_offset)}]")
+
+        print("\n--- End of Report ---\n")
+
 def extract_safetensor_metadata(path: str) -> dict:
     """
     Reads only the header of a safetensor file to extract metadata.
