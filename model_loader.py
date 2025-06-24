@@ -13,8 +13,8 @@ from utils.autoencoder import AutoencoderKL
 from utils.flux import Flux
 
 from safetensor_loader import SafetensorLoader, extract_safetensor_metadata
-from scheduler import FluxScheduler, VAEScheduler, T5Scheduler, CLIPScheduler
-from mem_allocator import MemoryAllocator
+from scheduler import T5Scheduler
+from mem_allocator import BudgetedAllocator
 
 
 from utils.mem_util import print_memory_usage
@@ -183,34 +183,33 @@ def load_pipeline(device: str = "cuda", quant_config: str = None, cpu_pool_size:
     t5_plan = ['shared'] + [f'encoder.block.{i}' for i in range(len(t5_blueprint.encoder.block))] + ['encoder.final_layer_norm']
     clip_plan = ['text_model.embeddings'] + [f'text_model.encoder.layers.{i}' for i in range(len(clip_blueprint.text_model.encoder.layers))] + ['text_model.final_layer_norm']
 
-    # --- Calculate True Max Module Size ---
-    max_flux_module = _calculate_max_module_size_for_plan(flux_blueprint, flux_plan)
-    max_vae_module = _calculate_max_module_size_for_plan(vae_blueprint, vae_plan)
-    max_t5_module = _calculate_max_module_size_for_plan(t5_blueprint, t5_plan)
-    max_clip_module = _calculate_max_module_size_for_plan(clip_blueprint, clip_plan)
-
-    max_module_size = max(max_flux_module, max_vae_module, max_t5_module, max_clip_module)
-    print(f"Determined max module size across all models: {max_module_size / 1e6:.2f} MB")
-
-    # Initialize memory allocator
-    allocator = MemoryAllocator(total_vram_limit, max_module_size, cpu_pool_size, device)
-
+    # The new architecture uses a static schedule, so dynamic calculation is no longer needed.
+    # The budgets are now passed directly to the schedulers.
+    
     print('inited mem allocator')
     # Initialize schedulers
-    clip_scheduler = CLIPScheduler(clip_path, clip_blueprint, allocator, device=device, quant_config=quant_config)
-    t5_model_dir = "../../ComfyUI/jitloader/t5"
-    t5_weight_map = _load_t5_weight_map("../../ComfyUI/jitloader/t5/model.safetensors.index.json")
-    t5_scheduler = T5Scheduler(t5_model_dir, t5_blueprint, allocator, device=device, model_config=t5_weight_map, quant_config=quant_config)
+    schedule_path = "schedule.json" # Assuming the schedule is in the root
     
+    # Initialize the budgeted allocator
+    with open(schedule_path, 'r') as f:
+        schedule_meta = json.load(f)['metadata']
+    gpu_budget_bytes = schedule_meta['gpu_budget_gb'] * 1024**3
+    cpu_budget_bytes = schedule_meta['cpu_budget_gb'] * 1024**3
+    allocator = BudgetedAllocator(gpu_budget_bytes, cpu_budget_bytes, device)
 
-    vae_scheduler = VAEScheduler(vae_path, vae_blueprint, allocator, device=device, quant_config=quant_config)
-    flux_scheduler = FluxScheduler(flux_path, flux_blueprint, allocator, device=device, quant_config=quant_config)
+    t5_model_dir = "../../ComfyUI/jitloader/t5"
+    t5_scheduler = T5Scheduler(t5_blueprint, allocator, schedule_path, t5_model_dir, device)
+
+    # TODO: Implement schedulers for other models based on the new architecture
+    # clip_scheduler = CLIPScheduler(...)
+    # vae_scheduler = VAEScheduler(...)
+    # flux_scheduler = FluxScheduler(...)
 
     return {
-        "clip": clip_scheduler,
+        # "clip": clip_scheduler,
         "t5": t5_scheduler,
-        "vae": vae_scheduler,
-        "flux": flux_scheduler,
+        # "vae": vae_scheduler,
+        # "flux": flux_scheduler,
     }, allocator
 
 

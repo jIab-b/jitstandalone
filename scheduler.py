@@ -1,341 +1,96 @@
-# jitstandalone/scheduler.py
-
 import torch
-from torch import nn
+import json
 from torch.func import functional_call
-from concurrent.futures import ThreadPoolExecutor
-from queue import Queue
 
 import custom_t5_cpp
 from safetensor_loader import SafetensorLoader, SAFETENSORS_DTYPE_MAP
-from mem_allocator import MemoryAllocator
-from utils.flux_layers import timestep_embedding
-from einops import rearrange, repeat
-from utils import common as standalone_common
+from mem_allocator import BudgetedAllocator
 
-class BaseScheduler:
+class T5Scheduler:
     """
-    Base class for all schedulers, providing asynchronous pre-fetching,
-    manual module materialization, and CUDA graph integration.
+    Runtime engine for the T5 text encoder that executes a pre-computed schedule.
     """
-    def __init__(self, path: str, model_blueprint: nn.Module, allocator: MemoryAllocator, device: str = "cuda", model_config: dict = None, quant_config: str = None, prefetch_depth: int = 2):
+    def __init__(self, blueprint: torch.nn.Module, allocator: BudgetedAllocator, schedule_path: str, model_dir: str, device: str = "cuda"):
         self.device = device
-        self.loader = SafetensorLoader(path, model_config=model_config, quant_config=quant_config)
-        self.blueprint = model_blueprint.to("meta")
+        self.blueprint = blueprint.to("meta")
         self.allocator = allocator
-        self.prefetch_depth = prefetch_depth
-        self.executor = ThreadPoolExecutor(max_workers=1)
-        self.prefetch_queue = Queue(maxsize=prefetch_depth)
-        self.master_plan = []
         
-        self.cuda_graphs = {}
-
-        if self.device == 'cuda':
-            self.stream_a = torch.cuda.Stream()
-            self.stream_b = torch.cuda.Stream()
-
-    def _create_master_plan(self, custom_order: list = None):
-        """
-        Performs a "preemptive forward pass" to determine the execution order and
-        memory footprint of every layer in the model, creating a Master Execution Plan.
-        """
-        print("Creating master execution plan...")
-        plan = []
+        with open(schedule_path, 'r') as f:
+            self.schedule = json.load(f)
         
-        # Use a custom order if provided, otherwise discover modules topologically.
-        # For now, we'll use the custom order to maintain compatibility with existing logic.
-        if custom_order is None:
-            raise NotImplementedError("Automatic topological sort not yet implemented. A custom order is required.")
-
-        for layer_name in custom_order:
-            try:
-                submodule = self.blueprint.get_submodule(layer_name)
-                layer_size = 0
-                for param_name, param in submodule.named_parameters(recurse=True):
-                    full_name = f"{layer_name}.{param_name}"
-                    info = self.loader.get_tensor_info(full_name)
-                    layer_size += torch.tensor([], dtype=SAFETENSORS_DTYPE_MAP[info['dtype']]).element_size() * torch.prod(torch.tensor(info['shape']))
-                for buffer_name, buffer in submodule.named_buffers(recurse=True):
-                    full_name = f"{layer_name}.{buffer_name}"
-                    try:
-                        info = self.loader.get_tensor_info(full_name)
-                        layer_size += torch.tensor([], dtype=SAFETENSORS_DTYPE_MAP[info['dtype']]).element_size() * torch.prod(torch.tensor(info['shape']))
-                    except KeyError:
-                        pass # Some buffers aren't in the safetensor file
-                plan.append({'name': layer_name, 'size': int(layer_size)})
-            except AttributeError:
-                # This can happen for non-module layers in the plan (e.g., functional layers)
-                plan.append({'name': layer_name, 'size': 0})
+        self.is_quantized = self.schedule['metadata'].get('t5_quantized', False)
         
-        self.master_plan = plan
-        print("Master plan created.")
+        if self.is_quantized:
+            # For quantized models, the schedule builder saves them in a known location
+            quantized_dir = "t5_quantized"
+            self.loader = SafetensorLoader(quantized_dir)
+        else:
+            t5_weight_map_path = f"{model_dir}/model.safetensors.index.json"
+            with open(t5_weight_map_path, 'r') as f:
+                model_config = json.load(f)
+            self.loader = SafetensorLoader(model_dir, model_config=model_config)
+        
+        self.stream_copy = torch.cuda.Stream()
+        self.stream_comp = torch.cuda.Stream()
 
-    def _load_layer_to_cpu(self, layer_name: str, cpu_buffer: torch.Tensor):
-        """
-        Loads all tensors for a layer directly into a pre-allocated CPU buffer slice.
-        Returns a dictionary of handles (sliced tensors) and their names.
-        """
-        handles = {}
-        submodule = self.blueprint.get_submodule(layer_name)
+    def _load_segment_to_cpu(self, segment: list, cpu_buffer: torch.Tensor):
+        """Loads all weights for a segment into a single pre-allocated CPU buffer."""
         current_offset = 0
-
-        for name, param in submodule.named_parameters(recurse=True):
-            full_name = f"{layer_name}.{name}"
-            info = self.loader.get_tensor_info(full_name)
-            dtype = SAFETENSORS_DTYPE_MAP[info['dtype']]
-            size = torch.tensor([], dtype=dtype).element_size() * torch.prod(torch.tensor(info['shape']))
-            
-            # Slice the main buffer and load into it
-            tensor_slice = cpu_buffer.narrow(0, current_offset, int(size)).view(dtype).reshape(param.shape)
-            self.loader.load_tensor_into(full_name, tensor_slice)
-            handles[name] = tensor_slice
-            current_offset += int(size)
-
-        for name, buffer in submodule.named_buffers(recurse=True):
-            full_name = f"{layer_name}.{name}"
-            try:
+        for layer_info in segment:
+            layer_name = layer_info['name']
+            submodule = self.blueprint.get_submodule(layer_name)
+            for param_name, param in submodule.named_parameters(recurse=True):
+                full_name = f"{layer_name}.{param_name}"
                 info = self.loader.get_tensor_info(full_name)
                 dtype = SAFETENSORS_DTYPE_MAP[info['dtype']]
                 size = torch.tensor([], dtype=dtype).element_size() * torch.prod(torch.tensor(info['shape']))
                 
-                tensor_slice = cpu_buffer.narrow(0, current_offset, int(size)).view(dtype).reshape(buffer.shape)
+                tensor_slice = cpu_buffer.narrow(0, current_offset, int(size)).view(dtype).reshape(param.shape)
                 self.loader.load_tensor_into(full_name, tensor_slice)
-                handles[name] = tensor_slice
                 current_offset += int(size)
-            except KeyError:
-                pass
-        return layer_name, handles
+        return
 
-    def _load_layer_to_gpu(self, layer_name_and_handles, buffer_id: int, stream: torch.cuda.Stream):
-        """
-        Copies a layer's weights from CPU to the designated GPU weight buffer.
-        Returns handles to the GPU tensors.
-        """
-        layer_name, cpu_handles = layer_name_and_handles
-        gpu_handles = {}
-        with torch.cuda.stream(stream):
-            for name, cpu_tensor in cpu_handles.items():
-                gpu_tensor = self.allocator.allocate(
-                    cpu_tensor.nbytes, 'gpu_weights', buffer_id=buffer_id
-                ).view(cpu_tensor.dtype).reshape(cpu_tensor.shape)
-                gpu_tensor.copy_(cpu_tensor, non_blocking=True)
-                gpu_handles[name] = gpu_tensor
-        return layer_name, gpu_handles
-
-
-class FluxScheduler(BaseScheduler):
-    """
-    Scheduler for the main FLUX transformer model.
-    """
-    def run_inference(self, x, timestep, context, y=None, guidance=None, **kwargs):
-        plan = ['img_in', 'time_in']
-        if self.blueprint.params.guidance_embed and guidance is not None:
-            plan.append('guidance_in')
-        plan.extend(['vector_in', 'txt_in', 'pe_embedder'])
-        plan.extend([f'double_blocks.{i}' for i in range(len(self.blueprint.double_blocks))])
-        plan.extend([f'single_blocks.{i}' for i in range(len(self.blueprint.single_blocks))])
-        plan.append('final_layer')
-        self._prepare_execution_plan(plan)
-        
-        bs, c, h, w = x.shape
-        patch_size = self.blueprint.patch_size
-        x = standalone_common.pad_to_patch_size(x, (patch_size, patch_size))
-        img = rearrange(x, "b c (h ph) (w pw) -> b (h w) (c ph pw)", ph=patch_size, pw=patch_size)
-        h_len, w_len = h // patch_size, w // patch_size
-        img_ids = torch.zeros((h_len, w_len, 3), device=x.device, dtype=x.dtype)
-        img_ids[:, :, 1] = torch.linspace(0, h_len - 1, steps=h_len, device=x.device, dtype=x.dtype).unsqueeze(1)
-        img_ids[:, :, 2] = torch.linspace(0, w_len - 1, steps=w_len, device=x.device, dtype=x.dtype).unsqueeze(0)
-        img_ids = repeat(img_ids, "h w c -> b (h w) c", b=bs)
-        txt = context
-        txt_ids = torch.zeros((bs, txt.shape[1], 3), device=x.device, dtype=x.dtype)
-        
-        if y is None:
-            y = torch.zeros((x.shape[0], self.blueprint.params.vec_in_dim), device=x.device, dtype=x.dtype)
-
-        streams = [self.stream_a, self.stream_b]
-        
-        # Initial fetch and load to GPU
-        cpu_future = self.prefetch_queue.get()
-        gpu_future = self.executor.submit(self._load_layer_to_gpu, cpu_future.result(), 0, streams[0])
-
-        for i in range(len(plan)):
-            buffer_id = i % 2
-            stream = streams[buffer_id]
-            
-            # Wait for the current layer's weights to be loaded to the GPU
-            layer_name, gpu_handles = gpu_future.result()
-            
-            # Prefetch the next layer to CPU, and then schedule its copy to the other GPU buffer
-            if i + 1 < len(plan):
-                cpu_future = self.prefetch_queue.get()
-                gpu_future = self.executor.submit(self._load_layer_to_gpu, cpu_future.result(), (i + 1) % 2, streams[(i + 1) % 2])
-
-            # Now, wait for the previous computation on the current stream to finish before resetting buffers
-            stream.synchronize()
-            self.allocator.reset('gpu_weights', buffer_id=buffer_id)
-            
-            # Start the next CPU load for a future layer
-            if i + self.prefetch_depth < len(plan):
-                future = self.executor.submit(self._load_layer_to_pool, plan[i + self.prefetch_depth])
-                self.prefetch_queue.put(future)
-
-            with self.allocator.scope() as workspace, torch.cuda.stream(stream):
-                submodule = self.blueprint.get_submodule(layer_name)
-                
-                # NOTE: Stateless execution requires manually allocating output tensors.
-                # This is a conceptual implementation. The exact shapes need to be derived
-                # from the model architecture.
-                if layer_name == 'img_in':
-                    img = functional_call(submodule, gpu_handles, (img,))
-                elif layer_name == 'time_in':
-                    vec = functional_call(submodule, gpu_handles, (timestep_embedding(timestep, 256).to(img.dtype),))
-                elif layer_name == 'guidance_in':
-                    guidance_embed = functional_call(submodule, gpu_handles, (timestep_embedding(guidance, 256).to(img.dtype),))
-                    vec = vec + guidance_embed
-                elif layer_name == 'vector_in':
-                    y_embed = functional_call(submodule, gpu_handles, (y[:,:self.blueprint.params.vec_in_dim],))
-                    vec = vec + y_embed
-                elif layer_name == 'txt_in':
-                    txt = functional_call(submodule, gpu_handles, (txt,))
-                elif layer_name == 'pe_embedder':
-                    ids = torch.cat((txt_ids, img_ids), dim=1)
-                    pe = functional_call(submodule, gpu_handles, (ids,))
-                elif 'double_blocks' in layer_name:
-                    img, txt = functional_call(submodule, gpu_handles, args=(img, txt, vec, pe))
-                elif 'single_blocks' in layer_name:
-                    if i > 0 and 'double_blocks' in plan[i-1]: # First single block
-                        img = torch.cat((txt, img), 1)
-                    img = functional_call(submodule, gpu_handles, args=(img,), kwargs={'vec': vec, 'pe': pe})
-                elif layer_name == 'final_layer':
-                    img = img[:, txt.shape[1] :, ...]
-                    img = functional_call(submodule, gpu_handles, args=(img, vec))
-
-        torch.cuda.synchronize()
-        return rearrange(img, "b (h w) (c ph pw) -> b c (h ph) (w pw)", h=h_len, w=w_len, ph=patch_size, pw=patch_size)[:,:,:h,:w]
-
-class VAEScheduler(BaseScheduler):
-    """
-    Scheduler for the VAE model.
-    """
-    def run_decoder_inference(self, latents):
-        latents = latents / self.blueprint.config.get("scaling_factor", 0.18215)
-        
-        plan = ['post_quant_conv', 'decoder.conv_in', 'decoder.mid.block_1', 'decoder.mid.attn_1', 'decoder.mid.block_2']
-        for i in reversed(range(self.blueprint.decoder.num_resolutions)):
-            for j in range(self.blueprint.decoder.num_res_blocks + 1):
-                plan.append(f'decoder.up.{i}.block.{j}')
-            if self.blueprint.decoder.up[i].attn:
-                plan.append(f'decoder.up.{i}.attn.0')
-            if i != 0:
-                plan.append(f'decoder.up.{i}.upsample')
-        plan.extend(['decoder.norm_out', 'decoder.conv_out'])
-        self._prepare_execution_plan(plan)
-
-        streams = [self.stream_a, self.stream_b]
-        h = latents
-
-        for i, layer_name in enumerate(plan):
-            buffer_id = i % 2
-            stream = streams[buffer_id]
-            
-            stream.synchronize()
-            self.allocator.reset('gpu_weights', buffer_id=buffer_id)
-            
-            # NOTE: This part is not fully implemented with the new design
-            # submodule = self._materialize_module(layer_name, buffer_id, stream)
-            raise NotImplementedError("VAEScheduler not yet refactored for stateless execution.")
-
-            if i + self.prefetch_depth < len(plan):
-                self.executor.submit(self._load_layer_to_pool, plan[i + self.prefetch_depth])
-
-            with torch.cuda.stream(stream):
-                # h = submodule(h)
-                pass
-
-        torch.cuda.synchronize()
-        return h
-
-class T5Scheduler(BaseScheduler):
-    """
-    Scheduler for the T5 text encoder with CUDA Graph optimization.
-    """
     def run_encoder_inference(self, input_ids):
-        # 1. Planner: Create the master plan
-        plan_order = ['shared'] + [f'encoder.block.{i}' for i in range(len(self.blueprint.encoder.block))] + ['encoder.final_layer_norm']
-        if not self.master_plan:
-            self._create_master_plan(plan_order)
-
-        streams = [self.stream_a, self.stream_b]
         hidden_states = input_ids.to(self.device)
         position_bias = None
         extended_attention_mask = None
         
-        plan_idx = 0
-        buffer_id = 0
+        segments = self.schedule['t5_segments']
+        
+        # This is a simplified synchronous implementation of the two-stream design.
+        # A fully async version would prefetch the next segment while computing the current one.
+        for seg in segments:
+            segment_size = sum(layer['size'] for layer in seg)
 
-        # 2. Orchestrator Loop
-        while plan_idx < len(self.master_plan):
-            # 3. Adaptive Batching Engine (CPU Stage)
-            self.allocator.reset('cpu')
-            cpu_pool_size = self.allocator.cpu_pool.numel()
-            
-            cpu_batch = []
-            batch_size = 0
-            temp_idx = plan_idx
-            while temp_idx < len(self.master_plan):
-                layer_info = self.master_plan[temp_idx]
-                if batch_size + layer_info['size'] > cpu_pool_size:
-                    break
-                batch_size += layer_info['size']
-                cpu_batch.append(layer_info)
-                temp_idx += 1
-            
-            if not cpu_batch:
-                raise MemoryError(f"CPU pool of size {cpu_pool_size/1e6:.2f}MB is too small for the next layer ({self.master_plan[plan_idx]['name']}) of size {self.master_plan[plan_idx]['size']/1e6:.2f}MB")
+            # --- Load and Transfer ---
+            with torch.cuda.stream(self.stream_copy):
+                cpu_buffer = self.allocator.malloc_cpu(segment_size)
+                gpu_buffer = self.allocator.malloc_gpu(segment_size)
+                
+                self._load_segment_to_cpu(seg, cpu_buffer)
+                gpu_buffer.copy_(cpu_buffer, non_blocking=True)
 
-            # Submit the entire CPU batch to be loaded from disk
-            cpu_buffer = self.allocator.allocate(batch_size, 'cpu')
-            cpu_futures = [self.executor.submit(self._load_layer_to_cpu, layer['name'], cpu_buffer) for layer in cpu_batch]
-            
-            # 4. Adaptive Batching Engine (GPU Stage)
-            stream = streams[buffer_id]
-            other_stream = streams[(buffer_id + 1) % 2]
-            other_stream.synchronize() # Ensure the other buffer is free
-            self.allocator.reset('gpu_weights', buffer_id=buffer_id)
-            
-            gpu_pool_size = self.allocator.gpu_weights_pool_a.numel()
-            
-            gpu_batch_handles = []
-            batch_size = 0
-            
-            with torch.cuda.stream(stream):
-                for i, future in enumerate(cpu_futures):
-                    layer_name, cpu_handles = future.result()
-                    layer_size = self.master_plan[plan_idx + i]['size']
-
-                    if batch_size + layer_size > gpu_pool_size:
-                        # This should ideally not happen if gpu_pool_size >= max_module_size
-                        # but is a safeguard. We would execute what we have and continue.
-                        break
-
-                    # Transfer layer to GPU
-                    gpu_handles = {}
-                    for name, cpu_tensor in cpu_handles.items():
-                        gpu_tensor = self.allocator.allocate(
-                            cpu_tensor.nbytes, 'gpu_weights', buffer_id=buffer_id
-                        ).view(cpu_tensor.dtype).reshape(cpu_tensor.shape)
-                        gpu_tensor.copy_(cpu_tensor, non_blocking=True)
-                        gpu_handles[name] = gpu_tensor
-                    gpu_batch_handles.append({'name': layer_name, 'handles': gpu_handles})
-                    batch_size += layer_size
-
-            # 5. Execute the GPU batch
-            with self.allocator.scope() as workspace, torch.cuda.stream(stream):
-                for layer in gpu_batch_handles:
-                    layer_name = layer['name']
-                    gpu_handles = layer['handles']
+            # --- Compute ---
+            self.stream_comp.wait_stream(self.stream_copy)
+            with torch.cuda.stream(self.stream_comp):
+                current_offset = 0
+                for layer_info in seg:
+                    layer_name = layer_info['name']
                     submodule = self.blueprint.get_submodule(layer_name)
+                    
+                    # Create handles by slicing the single GPU buffer for the segment
+                    gpu_handles = {}
+                    for param_name, param in submodule.named_parameters(recurse=True):
+                        full_name = f"{layer_name}.{param_name}"
+                        info = self.loader.get_tensor_info(full_name)
+                        dtype = SAFETENSORS_DTYPE_MAP[info['dtype']]
+                        size = torch.tensor([], dtype=dtype).element_size() * torch.prod(torch.tensor(info['shape']))
+                        
+                        tensor_slice = gpu_buffer.narrow(0, current_offset, int(size)).view(dtype).reshape(param.shape)
+                        gpu_handles[param_name] = tensor_slice
+                        current_offset += int(size)
 
+                    # --- Actual forward pass logic ---
                     if position_bias is None and 'block' in layer_name:
                         attention_layer = submodule.layer[0].SelfAttention
                         mask_shape = hidden_states.shape[:2]
@@ -348,7 +103,8 @@ class T5Scheduler(BaseScheduler):
                     if layer_name == 'shared':
                         hidden_states = functional_call(submodule, gpu_handles, (hidden_states,))
                     elif 'block' in layer_name:
-                        output_tensor = workspace.allocate(hidden_states.nbytes, 'workspace').view(hidden_states.dtype).reshape(hidden_states.shape)
+                        # This assumes a workspace allocator is integrated separately or handled by PyTorch
+                        output_tensor = torch.empty_like(hidden_states)
                         custom_t5_cpp.t5_block_forward(
                             hidden_states, position_bias, extended_attention_mask,
                             gpu_handles['layer.0.layer_norm.weight'], gpu_handles['layer.0.SelfAttention.q.weight'],
@@ -360,40 +116,11 @@ class T5Scheduler(BaseScheduler):
                         hidden_states = output_tensor
                     else: # final_layer_norm
                         hidden_states = functional_call(submodule, gpu_handles, (hidden_states,))
+
+            self.stream_comp.synchronize()
             
-            plan_idx += len(gpu_batch_handles)
-            buffer_id = (buffer_id + 1) % 2
+            # --- Free Memory ---
+            self.allocator.free_cpu(cpu_buffer)
+            self.allocator.free_gpu(gpu_buffer)
 
-        torch.cuda.synchronize()
-        return hidden_states
-
-class CLIPScheduler(BaseScheduler):
-    """
-    Scheduler for the CLIP text encoder.
-    """
-    def run_encoder_inference(self, input_ids):
-        plan = ['text_model.embeddings'] + [f'text_model.encoder.layers.{i}' for i in range(len(self.blueprint.text_model.encoder.layers))] + ['text_model.final_layer_norm']
-        self._prepare_execution_plan(plan)
-
-        streams = [self.stream_a, self.stream_b]
-        hidden_states = input_ids
-
-        for i, layer_name in enumerate(plan):
-            buffer_id = i % 2
-            stream = streams[buffer_id]
-            
-            stream.synchronize()
-            self.allocator.reset('gpu_weights', buffer_id=buffer_id)
-            
-            # NOTE: This part is not fully implemented with the new design
-            # submodule = self._materialize_module(layer_name, buffer_id, stream)
-            raise NotImplementedError("CLIPScheduler not yet refactored for stateless execution.")
-
-            if i + self.prefetch_depth < len(plan):
-                self.executor.submit(self._load_layer_to_pool, plan[i + self.prefetch_depth])
-
-            with torch.cuda.stream(stream):
-                pass
-
-        torch.cuda.synchronize()
         return hidden_states
