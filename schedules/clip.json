@@ -1,0 +1,84 @@
+{
+    "metadata": {
+        "gpu_budget_gb": 6.0,
+        "cpu_budget_gb": 12.0,
+        "batch_size": 1,
+        "sequence_length": 77,
+        "image_size": 1024,
+        "quantized": false
+    },
+    "segments": [
+        [
+            {
+                "name": "text_model.embeddings",
+                "weight_size": 76008960,
+                "activation_size": 118272
+            },
+            {
+                "name": "text_model.encoder.layers.0",
+                "weight_size": 14175744,
+                "activation_size": 118272
+            },
+            {
+                "name": "text_model.encoder.layers.1",
+                "weight_size": 14175744,
+                "activation_size": 118272
+            },
+            {
+                "name": "text_model.encoder.layers.2",
+                "weight_size": 14175744,
+                "activation_size": 118272
+            },
+            {
+                "name": "text_model.encoder.layers.3",
+                "weight_size": 14175744,
+                "activation_size": 118272
+            },
+            {
+                "name": "text_model.encoder.layers.4",
+                "weight_size": 14175744,
+                "activation_size": 118272
+            },
+            {
+                "name": "text_model.encoder.layers.5",
+                "weight_size": 14175744,
+                "activation_size": 118272
+            },
+            {
+                "name": "text_model.encoder.layers.6",
+                "weight_size": 14175744,
+                "activation_size": 118272
+            },
+            {
+                "name": "text_model.encoder.layers.7",
+                "weight_size": 14175744,
+                "activation_size": 118272
+            },
+            {
+                "name": "text_model.encoder.layers.8",
+                "weight_size": 14175744,
+                "activation_size": 118272
+            },
+            {
+                "name": "text_model.encoder.layers.9",
+                "weight_size": 14175744,
+                "activation_size": 118272
+            },
+            {
+                "name": "text_model.encoder.layers.10",
+                "weight_size": 14175744,
+                "activation_size": 118272
+            },
+            {
+                "name": "text_model.encoder.layers.11",
+                "weight_size": 14175744,
+                "activation_size": 118272
+            },
+            {
+                "name": "text_model.final_layer_norm",
+                "weight_size": 3072,
+                "activation_size": 118272
+            }
+        ]
+    ]
+}

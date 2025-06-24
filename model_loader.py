@@ -13,8 +13,8 @@ from utils.autoencoder import AutoencoderKL
 from utils.flux import Flux
 
 from safetensor_loader import SafetensorLoader, extract_safetensor_metadata
-from scheduler import T5Scheduler
-from mem_allocator import BudgetedAllocator
+from scheduler import T5Scheduler, CLIPScheduler, VAEScheduler, FluxScheduler
+from mem_allocator import CUDAMemoryAllocator
 
 
 from utils.mem_util import print_memory_usage
@@ -23,23 +23,8 @@ from utils.mem_util import print_memory_usage
 
 
 
-def _calculate_max_module_size_for_plan(blueprint: torch.nn.Module, plan: list):
-    """
-    Calculates the size of each module specified in an execution plan and returns the maximum size.
-    """
-    max_size = 0
-    for layer_name in plan:
-        try:
-            submodule = blueprint.get_submodule(layer_name)
-            module_size = 0
-            for param in submodule.parameters():
-                module_size += param.numel() * param.element_size()
-            if module_size > max_size:
-                max_size = module_size
-        except AttributeError:
-            # This can happen if a layer in the plan is not a real module, which is fine.
-            pass
-    return max_size
+# This function is obsolete in the new static scheduling architecture.
+# def _calculate_max_module_size_for_plan(...)
 
 
 def _load_vae_model_config():
@@ -111,9 +96,9 @@ def _load_t5_weight_map(path: str):
         return json.load(f)
 
 
-def load_pipeline(device: str = "cuda", quant_config: str = None, cpu_pool_size: int = 6*1024*1024*1024, total_vram_limit: int = 6*1024*1024*1024):
+def load_pipeline(device: str = "cuda"):
     """
-    Loads metadata-only safetensor files and returns initialized schedulers.
+    Loads model blueprints and initializes schedulers based on a pre-computed static schedule.
     Returns:
         dict: mapping model names to InferenceScheduler instances.
     """
@@ -164,55 +149,52 @@ def load_pipeline(device: str = "cuda", quant_config: str = None, cpu_pool_size:
 
 
     print('loaded all models')
-    # --- Define Execution Plans to Calculate Max Module Size ---
-    flux_plan = ['img_in', 'time_in', 'guidance_in', 'vector_in', 'txt_in', 'pe_embedder']
-    flux_plan.extend([f'double_blocks.{i}' for i in range(len(flux_blueprint.double_blocks))])
-    flux_plan.extend([f'single_blocks.{i}' for i in range(len(flux_blueprint.single_blocks))])
-    flux_plan.append('final_layer')
-
-    vae_plan = ['post_quant_conv', 'decoder.conv_in', 'decoder.mid.block_1', 'decoder.mid.attn_1', 'decoder.mid.block_2']
-    for i in reversed(range(vae_blueprint.decoder.num_resolutions)):
-        for j in range(vae_blueprint.decoder.num_res_blocks + 1):
-            vae_plan.append(f'decoder.up.{i}.block.{j}')
-        if vae_blueprint.decoder.up[i].attn:
-            vae_plan.append(f'decoder.up.{i}.attn.0')
-        if i != 0:
-            vae_plan.append(f'decoder.up.{i}.upsample')
-    vae_plan.extend(['decoder.norm_out', 'decoder.conv_out'])
-
-    t5_plan = ['shared'] + [f'encoder.block.{i}' for i in range(len(t5_blueprint.encoder.block))] + ['encoder.final_layer_norm']
-    clip_plan = ['text_model.embeddings'] + [f'text_model.encoder.layers.{i}' for i in range(len(clip_blueprint.text_model.encoder.layers))] + ['text_model.final_layer_norm']
-
-    # The new architecture uses a static schedule, so dynamic calculation is no longer needed.
-    # The budgets are now passed directly to the schedulers.
+    # --- Initialize Schedulers based on the static schedule ---
+    schedules_dir = "schedules"
     
-    print('inited mem allocator')
-    # Initialize schedulers
-    schedule_path = "schedule.json" # Assuming the schedule is in the root
+    print("Initializing pipeline from static schedules...")
     
-    # Initialize the budgeted allocator
-    with open(schedule_path, 'r') as f:
+    # 1. Read a schedule to get the budget and initialize the allocator
+    # (Assuming all schedules share the same budget metadata)
+    with open(f"{schedules_dir}/t5.json", 'r') as f:
         schedule_meta = json.load(f)['metadata']
     gpu_budget_bytes = schedule_meta['gpu_budget_gb'] * 1024**3
-    cpu_budget_bytes = schedule_meta['cpu_budget_gb'] * 1024**3
-    allocator = BudgetedAllocator(gpu_budget_bytes, cpu_budget_bytes, device)
+    
+    cuda_allocator = CUDAMemoryAllocator(gpu_budget_bytes, device=torch.device(device))
+    
+    # 2. CRITICAL: Register our allocator as the global default for PyTorch
+    torch.cuda.memory.change_allocator(cuda_allocator.malloc, cuda_allocator.free)
+    
+    print(f"Custom CUDA memory allocator registered with a budget of {gpu_budget_bytes/1e9:.2f} GB.")
 
+    # 3. Initialize all schedulers with their specific schedule files
     t5_model_dir = "../../ComfyUI/jitloader/t5"
-    t5_scheduler = T5Scheduler(t5_blueprint, allocator, schedule_path, t5_model_dir, device)
+    t5_scheduler = T5Scheduler(t5_blueprint, f"{schedules_dir}/t5.json", t5_model_dir, device)
+    print("T5 scheduler initialized.")
 
-    # TODO: Implement schedulers for other models based on the new architecture
-    # clip_scheduler = CLIPScheduler(...)
-    # vae_scheduler = VAEScheduler(...)
-    # flux_scheduler = FluxScheduler(...)
+    clip_model_dir = "../../ComfyUI/jitloader/clip"
+    clip_scheduler = CLIPScheduler(clip_blueprint, f"{schedules_dir}/clip.json", clip_model_dir, device)
+    print("CLIP scheduler initialized.")
+    
+    vae_model_dir = "../../ComfyUI/jitloader/vae"
+    vae_scheduler = VAEScheduler(vae_blueprint, f"{schedules_dir}/vae.json", vae_model_dir, device)
+    print("VAE scheduler initialized.")
+    
+    flux_model_dir = "../../ComfyUI/jitloader/transformer"
+    flux_scheduler = FluxScheduler(flux_blueprint, f"{schedules_dir}/flux.json", flux_model_dir, device)
+    print("FLUX scheduler initialized.")
 
+
+    # The allocator is now global, so we don't need to return it separately.
     return {
-        # "clip": clip_scheduler,
+        "clip": clip_scheduler,
         "t5": t5_scheduler,
-        # "vae": vae_scheduler,
-        # "flux": flux_scheduler,
-    }, allocator
+        "vae": vae_scheduler,
+        "flux": flux_scheduler,
+    }
 
 
 if __name__ == "__main__":
     schedulers = load_pipeline()
     print("Schedulers initialized:", list(schedulers.keys()))
+    # The custom allocator is now active. All subsequent CUDA operations are budgeted.

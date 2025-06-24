@@ -1,0 +1,89 @@
+{
+    "metadata": {
+        "gpu_budget_gb": 6.0,
+        "cpu_budget_gb": 12.0,
+        "batch_size": 1,
+        "sequence_length": 77,
+        "image_size": 1024,
+        "quantized": false
+    },
+    "segments": [
+        [
+            {
+                "name": "decoder.conv_in",
+                "weight_size": 296960,
+                "activation_size": 524288
+            },
+            {
+                "name": "decoder.up.3.block.0",
+                "weight_size": 18886656,
+                "activation_size": 524288
+            },
+            {
+                "name": "decoder.up.3.block.1",
+                "weight_size": 18886656,
+                "activation_size": 524288
+            },
+            {
+                "name": "decoder.up.3.block.2",
+                "weight_size": 18886656,
+                "activation_size": 524288
+            },
+            {
+                "name": "decoder.up.2.block.0",
+                "weight_size": 18886656,
+                "activation_size": 524288
+            },
+            {
+                "name": "decoder.up.2.block.1",
+                "weight_size": 18886656,
+                "activation_size": 524288
+            },
+            {
+                "name": "decoder.up.2.block.2",
+                "weight_size": 18886656,
+                "activation_size": 524288
+            },
+            {
+                "name": "decoder.up.1.block.0",
+                "weight_size": 7611392,
+                "activation_size": 524288
+            },
+            {
+                "name": "decoder.up.1.block.1",
+                "weight_size": 4724736,
+                "activation_size": 524288
+            },
+            {
+                "name": "decoder.up.1.block.2",
+                "weight_size": 4724736,
+                "activation_size": 524288
+            },
+            {
+                "name": "decoder.up.0.block.0",
+                "weight_size": 1905152,
+                "activation_size": 524288
+            },
+            {
+                "name": "decoder.up.0.block.1",
+                "weight_size": 1182720,
+                "activation_size": 524288
+            },
+            {
+                "name": "decoder.up.0.block.2",
+                "weight_size": 1182720,
+                "activation_size": 524288
+            },
+            {
+                "name": "decoder.norm_out",
+                "weight_size": 1024,
+                "activation_size": 524288
+            },
+            {
+                "name": "decoder.conv_out",
+                "weight_size": 13836,
+                "activation_size": 524288
+            }
+        ]
+    ]
+}

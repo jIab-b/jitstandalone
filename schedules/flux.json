@@ -1,0 +1,337 @@
+{
+    "metadata": {
+        "gpu_budget_gb": 6.0,
+        "cpu_budget_gb": 12.0,
+        "batch_size": 1,
+        "sequence_length": 77,
+        "image_size": 1024,
+        "quantized": false
+    },
+    "segments": [
+        [
+            {
+                "name": "img_in",
+                "weight_size": 399360,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "time_in",
+                "weight_size": 20459520,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "guidance_in",
+                "weight_size": 20459520,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "vector_in",
+                "weight_size": 23605248,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "txt_in",
+                "weight_size": 25171968,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "pe_embedder",
+                "weight_size": 0,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.0",
+                "weight_size": 679662592,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.1",
+                "weight_size": 679662592,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.2",
+                "weight_size": 679662592,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.3",
+                "weight_size": 679662592,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.4",
+                "weight_size": 679662592,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.5",
+                "weight_size": 679662592,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.6",
+                "weight_size": 679662592,
+                "activation_size": 1073741824
+            }
+        ],
+        [
+            {
+                "name": "double_blocks.7",
+                "weight_size": 679662592,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.8",
+                "weight_size": 679662592,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.9",
+                "weight_size": 679662592,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.10",
+                "weight_size": 679662592,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.11",
+                "weight_size": 679662592,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.12",
+                "weight_size": 679662592,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.13",
+                "weight_size": 679662592,
+                "activation_size": 1073741824
+            }
+        ],
+        [
+            {
+                "name": "double_blocks.14",
+                "weight_size": 679662592,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.15",
+                "weight_size": 679662592,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.16",
+                "weight_size": 679662592,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.17",
+                "weight_size": 679662592,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.18",
+                "weight_size": 679662592,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.19",
+                "weight_size": 0,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.20",
+                "weight_size": 0,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.21",
+                "weight_size": 0,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.22",
+                "weight_size": 0,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.23",
+                "weight_size": 0,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.24",
+                "weight_size": 0,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.25",
+                "weight_size": 0,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.26",
+                "weight_size": 0,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "double_blocks.27",
+                "weight_size": 0,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.0",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.1",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.2",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.3",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.4",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.5",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            }
+        ],
+        [
+            {
+                "name": "single_blocks.6",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.7",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.8",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.9",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.10",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.11",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.12",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.13",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.14",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.15",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.16",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.17",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.18",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.19",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.20",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.21",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.22",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.23",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            }
+        ],
+        [
+            {
+                "name": "single_blocks.24",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.25",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.26",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "single_blocks.27",
+                "weight_size": 283183616,
+                "activation_size": 1073741824
+            },
+            {
+                "name": "final_layer",
+                "weight_size": 38154368,
+                "activation_size": 1073741824
+            }
+        ]
+    ]
+}

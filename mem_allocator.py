@@ -1,65 +1,80 @@
 import torch
 
-class BudgetedAllocator:
+class CUDAMemoryAllocator:
     """
-    A simple, budgeted memory allocator that tracks memory usage against hard
-    limits for both GPU and CPU. It relies on an external scheduler to manage
-    the lifecycle of tensors and does not manage memory pools itself.
+    A custom memory allocator that can be registered with PyTorch to manage
+    all GPU memory allocations under a strict budget.
+
+    Usage:
+      alloc = CUDAMemoryAllocator(limit_bytes)
+      torch.cuda.memory.change_allocator(alloc.malloc, alloc.free)
     """
-    def __init__(self, gpu_limit_bytes: int, cpu_limit_bytes: int, device: str = "cuda"):
+    def __init__(self, limit_bytes: int, device: torch.device):
         self.device = device
-        self.gpu_limit = gpu_limit_bytes
-        self.cpu_limit = cpu_limit_bytes
-        self.gpu_bytes_used = 0
-        self.cpu_bytes_used = 0
+        self.limit = int(limit_bytes)
+        self.used = 0
+        self.peak = 0
 
-        # Optional: Set PyTorch's memory fraction as a first line of defense
-        # Note: This is a soft limit and doesn't account for fragmentation.
+    def malloc(self, size: int, stream: torch.cuda.Stream):
+        """
+        The allocation function that PyTorch will call.
+        It must return an integer representing the memory address.
+        """
+        if self.used + size > self.limit:
+            raise MemoryError(
+                f"Custom Allocator OOM: Cannot allocate {size/1e6:.2f}MB. "
+                f"Used: {self.used/1e6:.2f}MB, Peak: {self.peak/1e6:.2f}MB, "
+                f"Limit: {self.limit/1e6:.2f}MB"
+            )
+        
+        # PyTorch's underlying allocator is still used to get the actual memory,
+        # but it happens under our budget control.
+        address = torch.cuda.memory._get_cuda_memory_allocator().malloc(size, stream.ptr)
+        
+        self.used += size
+        if self.used > self.peak:
+            self.peak = self.used
+            
+        return address
+
+    def free(self, address: int):
+        """
+        The deallocation function that PyTorch will call.
+        It must take an integer memory address.
+        """
         try:
-            device_props = torch.cuda.get_device_properties(self.device)
-            fraction = self.gpu_limit / device_props.total_memory
-            if fraction > 1.0:
-                print(f"Warning: Requested GPU budget ({self.gpu_limit/1e9:.2f}GB) exceeds device capacity ({device_props.total_memory/1e9:.2f}GB).")
-            torch.cuda.set_per_process_memory_fraction(min(fraction, 1.0), self.device)
-        except Exception as e:
-            print(f"Could not set per-process memory fraction: {e}")
+            # We need to know the size of the block being freed.
+            # PyTorch's allocator backend can provide this.
+            block_size = torch.cuda.memory._get_cuda_memory_allocator().get_allocation_size(address)
+            self.used -= block_size
+        except RuntimeError:
+            # This can happen if the block is already freed or invalid.
+            # It's safer to ignore than to crash.
+            pass
+        
+        torch.cuda.memory._get_cuda_memory_allocator().free(address)
 
-    def malloc_gpu(self, nbytes: int, dtype: torch.dtype = torch.uint8) -> torch.Tensor:
-        """Allocates a tensor on the GPU after checking the budget."""
-        nbytes = int(nbytes)
-        if self.gpu_bytes_used + nbytes > self.gpu_limit:
-            raise MemoryError(
-                f"GPU OOM: Cannot allocate {nbytes/1e6:.2f}MB. "
-                f"Used: {self.gpu_bytes_used/1e6:.2f}MB, Limit: {self.gpu_limit/1e6:.2f}MB"
-            )
-        self.gpu_bytes_used += nbytes
-        # Using a raw byte tensor is common for buffer management
-        return torch.empty(nbytes // dtype.itemsize, dtype=dtype, device=self.device)
+    def get_usage_str(self) -> str:
+        return f"{self.used/1e6:.2f}MB / {self.limit/1e6:.2f}MB"
 
-    def free_gpu(self, tensor: torch.Tensor):
-        """Frees a GPU tensor and updates the budget."""
-        self.gpu_bytes_used -= tensor.nbytes
-        del tensor
+    def get_peak_usage_str(self) -> str:
+        return f"{self.peak/1e6:.2f}MB"
 
-    def malloc_cpu(self, nbytes: int, dtype: torch.dtype = torch.uint8, pinned: bool = True) -> torch.Tensor:
-        """Allocates a tensor on the CPU (pinned) after checking the budget."""
-        nbytes = int(nbytes)
-        if self.cpu_bytes_used + nbytes > self.cpu_limit:
-            raise MemoryError(
-                f"CPU OOM: Cannot allocate {nbytes/1e6:.2f}MB. "
-                f"Used: {self.cpu_bytes_used/1e6:.2f}MB, Limit: {self.cpu_limit/1e6:.2f}MB"
-            )
-        self.cpu_bytes_used += nbytes
-        tensor = torch.empty(nbytes // dtype.itemsize, dtype=dtype, device='cpu')
+# Note: A CPU budget allocator is simpler as it doesn't need to be hooked.
+# We can use a simple wrapper class if needed, but direct tracking in the
+# scheduler is often sufficient.
+class CPUAllocator:
+    def __init__(self, limit_bytes: int):
+        self.limit = int(limit_bytes)
+        self.used = 0
+
+    def malloc(self, nbytes: int, pinned: bool = True):
+        if self.used + nbytes > self.limit:
+            raise MemoryError(f"CPU Allocator OOM: Cannot allocate {nbytes/1e6:.2f}MB.")
+        self.used += nbytes
+        tensor = torch.empty(int(nbytes), dtype=torch.uint8, device='cpu')
         return tensor.pin_memory() if pinned else tensor
 
-    def free_cpu(self, tensor: torch.Tensor):
-        """Frees a CPU tensor and updates the budget."""
-        self.cpu_bytes_used -= tensor.nbytes
+    def free(self, tensor: torch.Tensor):
+        self.used -= tensor.nbytes
         del tensor
-
-    def get_gpu_usage_str(self) -> str:
-        return f"{self.gpu_bytes_used/1e6:.2f}MB / {self.gpu_limit/1e6:.2f}MB"
-
-    def get_cpu_usage_str(self) -> str:
-        return f"{self.cpu_bytes_used/1e6:.2f}MB / {self.cpu_limit/1e6:.2f}MB"
