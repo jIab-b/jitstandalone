@@ -206,28 +206,51 @@ def quantize_and_save_model(loader: SafetensorLoader, output_dir: str):
 # This block is already present in the file, but included for diff context
 def _get_plan_for_module(layer_name: str, submodule: torch.nn.Module, loader: SafetensorLoader, quantized: bool):
     """
-    Helper to calculate weight size for a generic module.
-    This is made robust to handle cases where a parameter exists in the blueprint
-    but not in the safetensor file (e.g., heterogeneous blocks in FLUX).
+    Helper to calculate weight size and collect detailed tensor info for a generic module.
+    This includes name, dtype, shape, and data offsets.
     """
     weight_size = 0
+    tensors = []
     for param_name, param in submodule.named_parameters(recurse=True):
         full_name = f"{layer_name}.{param_name}"
         try:
             if quantized:
-                # This assumes a simple quantization scheme for size calculation
-                info = loader.get_tensor_info(f"{full_name}.weight")
-                weight_size += torch.prod(torch.tensor(info['shape'])) * 1  # INT8
-                weight_size += 2 # FP16 scale
+                q_weight_name = f"{full_name}.weight"
+                q_scale_name = f"{full_name}.scale"
+
+                # Get info for weight tensor
+                weight_info = loader.get_tensor_info(q_weight_name)
+                weight_size += torch.prod(torch.tensor(weight_info['shape'])) * 1  # INT8
+                tensors.append({
+                    "name": q_weight_name,
+                    "dtype": weight_info['dtype'],
+                    "shape": weight_info['shape'],
+                    "offsets": weight_info['data_offsets']
+                })
+
+                # Get info for scale tensor
+                scale_info = loader.get_tensor_info(q_scale_name)
+                weight_size += 2  # FP16 scale
+                tensors.append({
+                    "name": q_scale_name,
+                    "dtype": scale_info['dtype'],
+                    "shape": scale_info['shape'],
+                    "offsets": scale_info['data_offsets']
+                })
             else:
                 info = loader.get_tensor_info(full_name)
                 weight_size += torch.tensor([], dtype=SAFETENSORS_DTYPE_MAP[info['dtype']]).element_size() * torch.prod(torch.tensor(info['shape']))
+                tensors.append({
+                    "name": full_name,
+                    "dtype": info['dtype'],
+                    "shape": info['shape'],
+                    "offsets": info['data_offsets']
+                })
         except KeyError:
             # This parameter exists in the blueprint but not the safetensor file.
-            # This can happen with models like FLUX where blocks are heterogeneous.
             # We can safely ignore it as it has no weights to load.
             pass
-    return int(weight_size)
+    return int(weight_size), tensors
 
 
 def _get_t5_execution_plan(blueprint: T5EncoderModel, loader: SafetensorLoader, quantized: bool, batch_size: int, seq_len: int) -> list:
@@ -244,7 +267,7 @@ def _get_t5_execution_plan(blueprint: T5EncoderModel, loader: SafetensorLoader, 
 
     for layer_name in layer_order:
         submodule = blueprint.get_submodule(layer_name)
-        weight_size = _get_plan_for_module(layer_name, submodule, loader, quantized)
+        weight_size, tensors = _get_plan_for_module(layer_name, submodule, loader, quantized)
         
         # Estimate peak activation size
         activation_size = 0
@@ -256,7 +279,8 @@ def _get_t5_execution_plan(blueprint: T5EncoderModel, loader: SafetensorLoader, 
         plan.append({
             'name': layer_name,
             'weight_size': weight_size,
-            'activation_size': int(activation_size)
+            'activation_size': int(activation_size),
+            'tensors': tensors
         })
             
     return plan
@@ -272,13 +296,14 @@ def _get_clip_execution_plan(blueprint: CLIPTextModel, loader: SafetensorLoader,
 
     for layer_name in layer_order:
         submodule = blueprint.get_submodule(layer_name)
-        weight_size = _get_plan_for_module(layer_name, submodule, loader, quantized)
+        weight_size, tensors = _get_plan_for_module(layer_name, submodule, loader, quantized)
         activation_size = batch_size * seq_len * config.hidden_size * activation_dtype_size
         
         plan.append({
             'name': layer_name,
             'weight_size': weight_size,
-            'activation_size': int(activation_size)
+            'activation_size': int(activation_size),
+            'tensors': tensors
         })
     return plan
 
@@ -308,11 +333,12 @@ def _get_vae_execution_plan(blueprint: AutoencoderKL, loader: SafetensorLoader, 
     for layer_name in layer_order:
         try:
             submodule = blueprint.get_submodule(layer_name)
-            weight_size = _get_plan_for_module(layer_name, submodule, loader, False)
+            weight_size, tensors = _get_plan_for_module(layer_name, submodule, loader, False)
             plan.append({
                 'name': layer_name,
                 'weight_size': weight_size,
-                'activation_size': int(activation_size) # Placeholder
+                'activation_size': int(activation_size), # Placeholder
+                'tensors': tensors
             })
         except (AttributeError, IndexError):
             # More robustly skip layers that don't exist in the blueprint
@@ -339,7 +365,7 @@ def _get_flux_execution_plan(blueprint: Flux, loader: SafetensorLoader, batch_si
 
     for layer_name in layer_order:
         submodule = blueprint.get_submodule(layer_name)
-        weight_size = _get_plan_for_module(layer_name, submodule, loader, False)
+        weight_size, tensors = _get_plan_for_module(layer_name, submodule, loader, False)
         
         current_activation = activation_size
         if 'txt' in layer_name or 'double_blocks' in layer_name:
@@ -348,7 +374,8 @@ def _get_flux_execution_plan(blueprint: Flux, loader: SafetensorLoader, batch_si
         plan.append({
             'name': layer_name,
             'weight_size': weight_size,
-            'activation_size': int(current_activation) # Placeholder
+            'activation_size': int(current_activation), # Placeholder
+            'tensors': tensors
         })
     return plan
 

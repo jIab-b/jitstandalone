@@ -12,77 +12,1357 @@
             {
                 "name": "decoder.conv_in",
                 "weight_size": 296960,
-                "activation_size": 524288
+                "activation_size": 524288,
+                "tensors": [
+                    {
+                        "name": "decoder.conv_in.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512,
+                            16,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            2048,
+                            296960
+                        ]
+                    },
+                    {
+                        "name": "decoder.conv_in.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            0,
+                            2048
+                        ]
+                    }
+                ]
             },
             {
                 "name": "decoder.up.3.block.0",
                 "weight_size": 18886656,
-                "activation_size": 524288
+                "activation_size": 524288,
+                "tensors": [
+                    {
+                        "name": "decoder.up.3.block.0.norm1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            150963212,
+                            150965260
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.3.block.0.norm1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            150961164,
+                            150963212
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.3.block.0.conv1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512,
+                            512,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            132084748,
+                            141521932
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.3.block.0.conv1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            132082700,
+                            132084748
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.3.block.0.norm2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            150967308,
+                            150969356
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.3.block.0.norm2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            150965260,
+                            150967308
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.3.block.0.conv2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512,
+                            512,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            141523980,
+                            150961164
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.3.block.0.conv2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            141521932,
+                            141523980
+                        ]
+                    }
+                ]
             },
             {
                 "name": "decoder.up.3.block.1",
                 "weight_size": 18886656,
-                "activation_size": 524288
+                "activation_size": 524288,
+                "tensors": [
+                    {
+                        "name": "decoder.up.3.block.1.norm1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            169849868,
+                            169851916
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.3.block.1.norm1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            169847820,
+                            169849868
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.3.block.1.conv1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512,
+                            512,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            150971404,
+                            160408588
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.3.block.1.conv1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            150969356,
+                            150971404
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.3.block.1.norm2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            169853964,
+                            169856012
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.3.block.1.norm2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            169851916,
+                            169853964
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.3.block.1.conv2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512,
+                            512,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            160410636,
+                            169847820
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.3.block.1.conv2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            160408588,
+                            160410636
+                        ]
+                    }
+                ]
             },
             {
                 "name": "decoder.up.3.block.2",
                 "weight_size": 18886656,
-                "activation_size": 524288
+                "activation_size": 524288,
+                "tensors": [
+                    {
+                        "name": "decoder.up.3.block.2.norm1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            188736524,
+                            188738572
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.3.block.2.norm1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            188734476,
+                            188736524
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.3.block.2.conv1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512,
+                            512,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            169858060,
+                            179295244
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.3.block.2.conv1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            169856012,
+                            169858060
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.3.block.2.norm2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            188740620,
+                            188742668
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.3.block.2.norm2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            188738572,
+                            188740620
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.3.block.2.conv2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512,
+                            512,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            179297292,
+                            188734476
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.3.block.2.conv2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            179295244,
+                            179297292
+                        ]
+                    }
+                ]
             },
             {
                 "name": "decoder.up.2.block.0",
                 "weight_size": 18886656,
-                "activation_size": 524288
+                "activation_size": 524288,
+                "tensors": [
+                    {
+                        "name": "decoder.up.2.block.0.norm1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            84864012,
+                            84866060
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.2.block.0.norm1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            84861964,
+                            84864012
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.2.block.0.conv1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512,
+                            512,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            65985548,
+                            75422732
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.2.block.0.conv1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            65983500,
+                            65985548
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.2.block.0.norm2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            84868108,
+                            84870156
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.2.block.0.norm2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            84866060,
+                            84868108
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.2.block.0.conv2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512,
+                            512,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            75424780,
+                            84861964
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.2.block.0.conv2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            75422732,
+                            75424780
+                        ]
+                    }
+                ]
             },
             {
                 "name": "decoder.up.2.block.1",
                 "weight_size": 18886656,
-                "activation_size": 524288
+                "activation_size": 524288,
+                "tensors": [
+                    {
+                        "name": "decoder.up.2.block.1.norm1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            103750668,
+                            103752716
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.2.block.1.norm1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            103748620,
+                            103750668
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.2.block.1.conv1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512,
+                            512,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            84872204,
+                            94309388
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.2.block.1.conv1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            84870156,
+                            84872204
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.2.block.1.norm2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            103754764,
+                            103756812
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.2.block.1.norm2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            103752716,
+                            103754764
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.2.block.1.conv2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512,
+                            512,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            94311436,
+                            103748620
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.2.block.1.conv2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            94309388,
+                            94311436
+                        ]
+                    }
+                ]
             },
             {
                 "name": "decoder.up.2.block.2",
                 "weight_size": 18886656,
-                "activation_size": 524288
+                "activation_size": 524288,
+                "tensors": [
+                    {
+                        "name": "decoder.up.2.block.2.norm1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            122637324,
+                            122639372
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.2.block.2.norm1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            122635276,
+                            122637324
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.2.block.2.conv1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512,
+                            512,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            103758860,
+                            113196044
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.2.block.2.conv1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            103756812,
+                            103758860
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.2.block.2.norm2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            122641420,
+                            122643468
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.2.block.2.norm2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            122639372,
+                            122641420
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.2.block.2.conv2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512,
+                            512,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            113198092,
+                            122635276
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.2.block.2.conv2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            113196044,
+                            113198092
+                        ]
+                    }
+                ]
             },
             {
                 "name": "decoder.up.1.block.0",
                 "weight_size": 7611392,
-                "activation_size": 524288
+                "activation_size": 524288,
+                "tensors": [
+                    {
+                        "name": "decoder.up.1.block.0.norm1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            54169612,
+                            54171660
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.0.norm1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            512
+                        ],
+                        "offsets": [
+                            54167564,
+                            54169612
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.0.conv1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            256,
+                            512,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            46563340,
+                            51281932
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.0.conv1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            256
+                        ],
+                        "offsets": [
+                            46562316,
+                            46563340
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.0.norm2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            256
+                        ],
+                        "offsets": [
+                            54172684,
+                            54173708
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.0.norm2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            256
+                        ],
+                        "offsets": [
+                            54171660,
+                            54172684
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.0.conv2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            256,
+                            256,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            51282956,
+                            53642252
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.0.conv2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            256
+                        ],
+                        "offsets": [
+                            51281932,
+                            51282956
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.0.nin_shortcut.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            256,
+                            512,
+                            1,
+                            1
+                        ],
+                        "offsets": [
+                            53643276,
+                            54167564
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.0.nin_shortcut.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            256
+                        ],
+                        "offsets": [
+                            53642252,
+                            53643276
+                        ]
+                    }
+                ]
             },
             {
                 "name": "decoder.up.1.block.1",
                 "weight_size": 4724736,
-                "activation_size": 524288
+                "activation_size": 524288,
+                "tensors": [
+                    {
+                        "name": "decoder.up.1.block.1.norm1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            256
+                        ],
+                        "offsets": [
+                            58895372,
+                            58896396
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.1.norm1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            256
+                        ],
+                        "offsets": [
+                            58894348,
+                            58895372
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.1.conv1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            256,
+                            256,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            54174732,
+                            56534028
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.1.conv1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            256
+                        ],
+                        "offsets": [
+                            54173708,
+                            54174732
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.1.norm2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            256
+                        ],
+                        "offsets": [
+                            58897420,
+                            58898444
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.1.norm2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            256
+                        ],
+                        "offsets": [
+                            58896396,
+                            58897420
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.1.conv2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            256,
+                            256,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            56535052,
+                            58894348
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.1.conv2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            256
+                        ],
+                        "offsets": [
+                            56534028,
+                            56535052
+                        ]
+                    }
+                ]
             },
             {
                 "name": "decoder.up.1.block.2",
                 "weight_size": 4724736,
-                "activation_size": 524288
+                "activation_size": 524288,
+                "tensors": [
+                    {
+                        "name": "decoder.up.1.block.2.norm1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            256
+                        ],
+                        "offsets": [
+                            63620108,
+                            63621132
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.2.norm1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            256
+                        ],
+                        "offsets": [
+                            63619084,
+                            63620108
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.2.conv1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            256,
+                            256,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            58899468,
+                            61258764
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.2.conv1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            256
+                        ],
+                        "offsets": [
+                            58898444,
+                            58899468
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.2.norm2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            256
+                        ],
+                        "offsets": [
+                            63622156,
+                            63623180
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.2.norm2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            256
+                        ],
+                        "offsets": [
+                            63621132,
+                            63622156
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.2.conv2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            256,
+                            256,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            61259788,
+                            63619084
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.1.block.2.conv2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            256
+                        ],
+                        "offsets": [
+                            61258764,
+                            61259788
+                        ]
+                    }
+                ]
             },
             {
                 "name": "decoder.up.0.block.0",
                 "weight_size": 1905152,
-                "activation_size": 524288
+                "activation_size": 524288,
+                "tensors": [
+                    {
+                        "name": "decoder.up.0.block.0.norm1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            256
+                        ],
+                        "offsets": [
+                            44194828,
+                            44195852
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.0.norm1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            256
+                        ],
+                        "offsets": [
+                            44193804,
+                            44194828
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.0.conv1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            128,
+                            256,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            42292236,
+                            43471884
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.0.conv1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            128
+                        ],
+                        "offsets": [
+                            42291724,
+                            42292236
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.0.norm2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            128
+                        ],
+                        "offsets": [
+                            44196364,
+                            44196876
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.0.norm2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            128
+                        ],
+                        "offsets": [
+                            44195852,
+                            44196364
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.0.conv2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            128,
+                            128,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            43472396,
+                            44062220
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.0.conv2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            128
+                        ],
+                        "offsets": [
+                            43471884,
+                            43472396
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.0.nin_shortcut.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            128,
+                            256,
+                            1,
+                            1
+                        ],
+                        "offsets": [
+                            44062732,
+                            44193804
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.0.nin_shortcut.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            128
+                        ],
+                        "offsets": [
+                            44062220,
+                            44062732
+                        ]
+                    }
+                ]
             },
             {
                 "name": "decoder.up.0.block.1",
                 "weight_size": 1182720,
-                "activation_size": 524288
+                "activation_size": 524288,
+                "tensors": [
+                    {
+                        "name": "decoder.up.0.block.1.norm1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            128
+                        ],
+                        "offsets": [
+                            45378060,
+                            45378572
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.1.norm1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            128
+                        ],
+                        "offsets": [
+                            45377548,
+                            45378060
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.1.conv1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            128,
+                            128,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            44197388,
+                            44787212
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.1.conv1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            128
+                        ],
+                        "offsets": [
+                            44196876,
+                            44197388
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.1.norm2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            128
+                        ],
+                        "offsets": [
+                            45379084,
+                            45379596
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.1.norm2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            128
+                        ],
+                        "offsets": [
+                            45378572,
+                            45379084
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.1.conv2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            128,
+                            128,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            44787724,
+                            45377548
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.1.conv2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            128
+                        ],
+                        "offsets": [
+                            44787212,
+                            44787724
+                        ]
+                    }
+                ]
             },
             {
                 "name": "decoder.up.0.block.2",
                 "weight_size": 1182720,
-                "activation_size": 524288
+                "activation_size": 524288,
+                "tensors": [
+                    {
+                        "name": "decoder.up.0.block.2.norm1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            128
+                        ],
+                        "offsets": [
+                            46560780,
+                            46561292
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.2.norm1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            128
+                        ],
+                        "offsets": [
+                            46560268,
+                            46560780
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.2.conv1.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            128,
+                            128,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            45380108,
+                            45969932
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.2.conv1.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            128
+                        ],
+                        "offsets": [
+                            45379596,
+                            45380108
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.2.norm2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            128
+                        ],
+                        "offsets": [
+                            46561804,
+                            46562316
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.2.norm2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            128
+                        ],
+                        "offsets": [
+                            46561292,
+                            46561804
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.2.conv2.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            128,
+                            128,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            45970444,
+                            46560268
+                        ]
+                    },
+                    {
+                        "name": "decoder.up.0.block.2.conv2.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            128
+                        ],
+                        "offsets": [
+                            45969932,
+                            45970444
+                        ]
+                    }
+                ]
             },
             {
                 "name": "decoder.norm_out",
                 "weight_size": 1024,
-                "activation_size": 524288
+                "activation_size": 524288,
+                "tensors": [
+                    {
+                        "name": "decoder.norm_out.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            128
+                        ],
+                        "offsets": [
+                            42291212,
+                            42291724
+                        ]
+                    },
+                    {
+                        "name": "decoder.norm_out.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            128
+                        ],
+                        "offsets": [
+                            42290700,
+                            42291212
+                        ]
+                    }
+                ]
             },
             {
                 "name": "decoder.conv_out",
                 "weight_size": 13836,
-                "activation_size": 524288
+                "activation_size": 524288,
+                "tensors": [
+                    {
+                        "name": "decoder.conv_out.weight",
+                        "dtype": "F32",
+                        "shape": [
+                            3,
+                            128,
+                            3,
+                            3
+                        ],
+                        "offsets": [
+                            296972,
+                            310796
+                        ]
+                    },
+                    {
+                        "name": "decoder.conv_out.bias",
+                        "dtype": "F32",
+                        "shape": [
+                            3
+                        ],
+                        "offsets": [
+                            296960,
+                            296972
+                        ]
+                    }
+                ]
             }
         ]
     ]
