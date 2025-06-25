@@ -4,3 +4,10 @@ build/*
 *.pyd
 blueprints/*
 *.pt
+clip/*
+clip_tokenizer/*
+scheduler_config/*
+transformer/*
+t5/*
+t5_tokenizer/*
+vae/*
