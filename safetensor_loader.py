@@ -24,7 +24,7 @@ class SafetensorLoader:
     On-demand safetensor loader using memory-mapping for zero-copy reads.
     Can handle single-file or multi-file (sharded) models.
     """
-    def __init__(self, path: str, model_config: dict = None, quant_config: str = None):
+    def __init__(self, path: str, model_config: dict = None, quant_config: str = None, safetensor_filename: str = "model.safetensors"):
         self.path = path
         self.model_config = model_config or {}
         self.weight_map = self.model_config.get('weight_map')
@@ -58,8 +58,15 @@ class SafetensorLoader:
                 self.data_start_offsets[filename] = 8 + header_len
                 self.mmaps[filename] = mmap.mmap(file.fileno(), 0, access=mmap.ACCESS_READ)
         else:
-            # Single-file model. `path` is a file path.
-            file = open(path, 'rb')
+            # Single-file model. `path` should be a directory containing model.safetensors.
+            filepath = path
+            if os.path.isdir(path):
+                filepath = os.path.normpath(os.path.join(path, safetensor_filename))
+
+            if not os.path.isfile(filepath):
+                raise FileNotFoundError(f"Could not find a safetensors file at '{filepath}' or in the directory '{path}'")
+
+            file = open(filepath, 'rb')
             self.file_handles['__single__'] = file
             
             header_len_bytes = file.read(8)

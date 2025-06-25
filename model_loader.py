@@ -124,10 +124,9 @@ def load_pipeline(device: str = "cuda"):
     
     cuda_allocator = CUDAMemoryAllocator(gpu_budget_bytes, device=torch.device(device))
     
-    # 2. CRITICAL: Register our allocator as the global default for PyTorch
-    torch.cuda.memory.change_allocator(cuda_allocator.malloc, cuda_allocator.free)
-    
-    print(f"Custom CUDA memory allocator registered with a budget of {gpu_budget_bytes/1e9:.2f} GB.")
+    # The allocator is now a standalone pool, not a global hook.
+    # The incorrect call to `change_allocator` has been removed.
+    print(f"Custom CUDA memory pool initialized with a budget of {gpu_budget_bytes/1e9:.2f} GB.")
 
     # 3. Initialize all schedulers with their specific schedule files
     t5_model_dir = "../../ComfyUI/jitloader/t5"

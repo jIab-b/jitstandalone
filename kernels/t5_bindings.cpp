@@ -16,7 +16,8 @@ void t5_block_forward_cuda_launcher_impl(
     const torch::Tensor& wi0_weight,
     const torch::Tensor& wi1_weight,
     const torch::Tensor& wo_weight,
-    torch::Tensor& output
+    torch::Tensor& output,
+    torch::Tensor& workspace
 );
 
 // C++ wrapper function that will be called from Python
@@ -33,7 +34,8 @@ void t5_block_forward(
     const torch::Tensor& wi0_weight,
     const torch::Tensor& wi1_weight,
     const torch::Tensor& wo_weight,
-    torch::Tensor& output
+    torch::Tensor& output,
+    torch::Tensor& workspace
 ) {
     // Manually dispatch to the correct templated C++ function based on the input tensor's dtype
     // to avoid compiling for unused types like 'double'.
@@ -42,14 +44,14 @@ void t5_block_forward(
             hidden_states, position_bias, attention_mask,
             norm1_weight, q_weight, k_weight, v_weight, o_weight,
             norm2_weight, wi0_weight, wi1_weight, wo_weight,
-            output
+            output, workspace
         );
     } else if (hidden_states.scalar_type() == at::kBFloat16) {
         t5_block_forward_cuda_launcher_impl<at::BFloat16>(
             hidden_states, position_bias, attention_mask,
             norm1_weight, q_weight, k_weight, v_weight, o_weight,
             norm2_weight, wi0_weight, wi1_weight, wo_weight,
-            output
+            output, workspace
         );
     } else {
         AT_ERROR("t5_block_forward only supports Float and BFloat16, but got ", hidden_states.scalar_type());

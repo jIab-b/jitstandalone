@@ -44,13 +44,13 @@ def run_inference(prompt: str, output_path: str = "jitstandalone/output.png", qu
 
     # 3. Run Text Encoders in sequence
     print("Running T5 encoder...")
-    t5_embeddings = t5_scheduler.run_encoder_inference(t5_tokens)
+    t5_embeddings = t5_scheduler.run_schedule(allocator=cuda_allocator, input_ids=t5_tokens)
     print("T5 encoder finished.")
     print(t5_embeddings)
     return
 
     print("Running CLIP encoder...")
-    clip_embeddings = clip_scheduler.run_encoder_inference(clip_tokens)
+    clip_embeddings = clip_scheduler.run_encoder_inference(clip_tokens, cuda_allocator)
     print("CLIP encoder finished.")
 
     # 4. Prepare inputs for FLUX
@@ -80,12 +80,12 @@ def run_inference(prompt: str, output_path: str = "jitstandalone/output.png", qu
 
     # 5. Run the FLUX model
     print("Running FLUX model...")
-    output_latents = flux_scheduler.run_inference(latents, timestep, context, y)
+    output_latents = flux_scheduler.run_inference(latents, timestep, context, y, allocator=cuda_allocator)
     print("FLUX model finished.")
 
     # 6. Decode the latents with the VAE
     print("Running VAE decoder...")
-    image_tensor = vae_scheduler.run_decoder_inference(output_latents)
+    image_tensor = vae_scheduler.run_decoder_inference(output_latents, allocator=cuda_allocator)
     print("VAE decoder finished.")
 
     # 7. Save the output image
