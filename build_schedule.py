@@ -132,6 +132,25 @@ def build_schedule(args):
 
     print("   ...blueprints loaded successfully.")
 
+    print("\n1a. Saving model blueprints...")
+    os.makedirs(args.schedules_dir, exist_ok=True)
+    torch.save(clip_blueprint, os.path.join(args.schedules_dir, "clip_blueprint.pt"))
+    torch.save(t5_blueprint, os.path.join(args.schedules_dir, "t5_blueprint.pt"))
+    torch.save(vae_blueprint, os.path.join(args.schedules_dir, "vae_blueprint.pt"))
+    torch.save(flux_blueprint, os.path.join(args.schedules_dir, "flux_blueprint.pt"))
+
+    # Also save a human-readable version of the blueprints
+    with open(os.path.join(args.schedules_dir, "clip_blueprint.txt"), "w") as f:
+        f.write(str(clip_blueprint))
+    with open(os.path.join(args.schedules_dir, "t5_blueprint.txt"), "w") as f:
+        f.write(str(t5_blueprint))
+    with open(os.path.join(args.schedules_dir, "vae_blueprint.txt"), "w") as f:
+        f.write(str(vae_blueprint))
+    with open(os.path.join(args.schedules_dir, "flux_blueprint.txt"), "w") as f:
+        f.write(str(flux_blueprint))
+
+    print("   ...blueprints saved successfully.")
+
     print("\n2. Building execution schedules for all models...")
     t5_segments = _build_t5_schedule(args, t5_blueprint)
     clip_segments = _build_clip_schedule(args, clip_blueprint)
@@ -244,7 +263,10 @@ def _get_plan_for_module(layer_name: str, submodule: torch.nn.Module, loader: Sa
                     "name": full_name,
                     "dtype": info['dtype'],
                     "shape": info['shape'],
-                    "offsets": info['data_offsets']
+                    "offsets": info['data_offsets'],
+                    # For sharded models like T5, the loader finds the correct file.
+                    # For non-sharded, this will be the main model file.
+                    "filename": loader.get_tensor_filename(full_name)
                 })
         except KeyError:
             # This parameter exists in the blueprint but not the safetensor file.

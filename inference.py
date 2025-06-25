@@ -25,7 +25,7 @@ def run_inference(prompt: str, output_path: str = "jitstandalone/output.png", qu
     # 1. Load all model schedulers and allocator
     cpu_pool_size = cpu_pool_gb * 1024 * 1024 * 1024 
     gpu_pool_size = gpu_pool_gb * 1024 * 1024 * 1024 
-    schedulers, allocator = load_pipeline(device, quant_config=quant_config, cpu_pool_size=cpu_pool_size, total_vram_limit=gpu_pool_size)
+    schedulers, cuda_allocator = load_pipeline(device)
     t5_scheduler = schedulers["t5"]
     clip_scheduler = schedulers["clip"]
     flux_scheduler = schedulers["flux"]
@@ -58,7 +58,7 @@ def run_inference(prompt: str, output_path: str = "jitstandalone/output.png", qu
     # Create a dummy pooled vector for now
     y_shape = (1, t5_scheduler.blueprint.config.d_model + clip_scheduler.blueprint.config.hidden_size)
     y_size_bytes = y_shape[0] * y_shape[1] * 4
-    y_buffer = allocator.allocate(y_size_bytes, device)
+    y_buffer = cuda_allocator.allocate(y_size_bytes, device)
     y = y_buffer.view(torch.float32).reshape(y_shape)
     y.normal_()
 
@@ -72,7 +72,7 @@ def run_inference(prompt: str, output_path: str = "jitstandalone/output.png", qu
     latent_shape = (1, latent_channels, latent_height, latent_width)
     n_elements = 1 * latent_channels * latent_height * latent_width
     latent_size_bytes = n_elements * 4
-    latents_buffer = allocator.allocate(latent_size_bytes, device)
+    latents_buffer = cuda_allocator.allocate(latent_size_bytes, device)
     latents = latents_buffer.view(torch.float32).reshape(latent_shape)
     latents.normal_()
 

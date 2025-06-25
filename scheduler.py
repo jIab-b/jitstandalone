@@ -5,40 +5,47 @@ from torch.func import functional_call
 import custom_t5_cpp
 from safetensor_loader import SafetensorLoader, SAFETENSORS_DTYPE_MAP
 
-class T5Scheduler:
+class BaseScheduler:
     """
-    Runtime engine for the T5 text encoder that executes a pre-computed schedule.
-    It assumes a custom global CUDA memory allocator has been set.
+    Base class for runtime engines that execute a pre-computed schedule.
     """
     def __init__(self, blueprint: torch.nn.Module, schedule_path: str, model_dir: str, device: str = "cuda"):
         self.device = device
         self.blueprint = blueprint.to("meta")
-        
+        self.model_dir = model_dir
+
         with open(schedule_path, 'r') as f:
             self.schedule = json.load(f)
+
+        self.is_quantized = self.schedule['metadata'].get('quantized', False)
         
-        self.is_quantized = self.schedule['metadata'].get('t5_quantized', False)
-        
-        # Determine the correct path for the weights based on quantization
-        if self.is_quantized:
-            loader_path = "t5_quantized"
-        else:
-            loader_path = model_dir
-        
-        t5_weight_map_path = f"{model_dir}/model.safetensors.index.json"
-        with open(t5_weight_map_path, 'r') as f:
-            model_config = json.load(f)
-        self.loader = SafetensorLoader(loader_path, model_config=model_config)
+        # The SafetensorLoader is now simplified and only needs the directory
+        self.loader = SafetensorLoader(self.model_dir)
         
         self.stream_copy = torch.cuda.Stream()
         self.stream_comp = torch.cuda.Stream()
+
+class T5Scheduler(BaseScheduler):
+    """
+    Runtime engine for the T5 text encoder.
+    """
+    def __init__(self, blueprint: torch.nn.Module, schedule_path: str, model_dir: str, device: str = "cuda"):
+        # T5 has a sharded model structure, so we need to load its weight map
+        t5_weight_map_path = f"{model_dir}/model.safetensors.index.json"
+        with open(t5_weight_map_path, 'r') as f:
+            model_config = json.load(f)
+        
+        # Initialize the loader with the specific weight map for T5
+        self.loader = SafetensorLoader(model_dir, model_config=model_config)
+        super().__init__(blueprint, schedule_path, model_dir, device)
+
 
     def run_encoder_inference(self, input_ids):
         hidden_states = input_ids.to(self.device)
         position_bias = None
         extended_attention_mask = None
         
-        segments = self.schedule['t5_segments']
+        segments = self.schedule['segments']
         
         for seg in segments:
             # This simplified loop executes segments synchronously.
@@ -55,15 +62,13 @@ class T5Scheduler:
                 # Load all weights for the segment into the CPU buffer
                 current_offset = 0
                 for layer_info in seg:
-                    layer_name = layer_info['name']
-                    submodule = self.blueprint.get_submodule(layer_name)
-                    for param_name, _ in submodule.named_parameters(recurse=True):
-                        full_name = f"{layer_name}.{param_name}"
-                        info = self.loader.get_tensor_info(full_name)
-                        dtype = SAFETENSORS_DTYPE_MAP[info['dtype']]
-                        size = torch.tensor([], dtype=dtype).element_size() * torch.prod(torch.tensor(info['shape']))
+                    for tensor_info in layer_info['tensors']:
+                        full_name = tensor_info['name']
+                        dtype = SAFETENSORS_DTYPE_MAP[tensor_info['dtype']]
+                        shape = tensor_info['shape']
+                        size = torch.tensor([], dtype=dtype).element_size() * torch.prod(torch.tensor(shape))
                         
-                        tensor_slice = cpu_weight_buffer.narrow(0, current_offset, int(size)).view(dtype).reshape(info['shape'])
+                        tensor_slice = cpu_weight_buffer.narrow(0, current_offset, int(size)).view(dtype).reshape(shape)
                         self.loader.load_tensor_into(full_name, tensor_slice)
                         current_offset += int(size)
                 
@@ -80,15 +85,18 @@ class T5Scheduler:
                     
                     # Create handles by slicing the single GPU buffer for the segment
                     gpu_handles = {}
+                    # Reconstruct the state_dict for functional_call from the buffer
+                    param_idx = 0
                     for param_name, param in submodule.named_parameters(recurse=True):
-                        full_name = f"{layer_name}.{param_name}"
-                        info = self.loader.get_tensor_info(full_name)
-                        dtype = SAFETENSORS_DTYPE_MAP[info['dtype']]
-                        size = torch.tensor([], dtype=dtype).element_size() * torch.prod(torch.tensor(info['shape']))
-                        
-                        tensor_slice = gpu_weight_buffer.narrow(0, current_offset, int(size)).view(dtype).reshape(param.shape)
+                        tensor_info = layer_info['tensors'][param_idx]
+                        dtype = SAFETENSORS_DTYPE_MAP[tensor_info['dtype']]
+                        shape = tensor_info['shape']
+                        size = torch.tensor([], dtype=dtype).element_size() * torch.prod(torch.tensor(shape))
+
+                        tensor_slice = gpu_weight_buffer.narrow(0, current_offset, int(size)).view(dtype).reshape(shape)
                         gpu_handles[param_name] = tensor_slice
                         current_offset += int(size)
+                        param_idx += 1
 
                     # --- Actual forward pass logic ---
                     # (Activations are now implicitly managed by the global custom allocator)
@@ -129,46 +137,29 @@ class T5Scheduler:
         return hidden_states
 
 
-class CLIPScheduler:
+class CLIPScheduler(BaseScheduler):
     """
-    Runtime engine for the CLIP text encoder that executes a pre-computed schedule.
+    Runtime engine for the CLIP text encoder.
     """
-    def __init__(self, blueprint: torch.nn.Module, schedule_path: str, model_dir: str, device: str = "cuda"):
-        self.device = device
-        self.blueprint = blueprint.to("meta")
-        # ... (initialization logic similar to T5Scheduler)
-
     def run_encoder_inference(self, input_ids):
-        # ... (execution logic similar to T5Scheduler)
+        # This logic will be very similar to T5's, but without the custom kernel.
         print("CLIP inference not yet implemented.")
         return None
 
 
-class VAEScheduler:
+class VAEScheduler(BaseScheduler):
     """
-    Runtime engine for the VAE decoder that executes a pre-computed schedule.
+    Runtime engine for the VAE decoder.
     """
-    def __init__(self, blueprint: torch.nn.Module, schedule_path: str, model_dir: str, device: str = "cuda"):
-        self.device = device
-        self.blueprint = blueprint.to("meta")
-        # ... (initialization logic similar to T5Scheduler)
-
     def run_decoder_inference(self, latents):
-        # ... (execution logic similar to T5Scheduler)
         print("VAE inference not yet implemented.")
         return None
 
 
-class FluxScheduler:
+class FluxScheduler(BaseScheduler):
     """
-    Runtime engine for the FLUX model that executes a pre-computed schedule.
+    Runtime engine for the FLUX model.
     """
-    def __init__(self, blueprint: torch.nn.Module, schedule_path: str, model_dir: str, device: str = "cuda"):
-        self.device = device
-        self.blueprint = blueprint.to("meta")
-        # ... (initialization logic similar to T5Scheduler)
-
     def run_inference(self, *args, **kwargs):
-        # ... (execution logic similar to T5Scheduler)
         print("FLUX inference not yet implemented.")
         return None

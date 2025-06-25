@@ -95,60 +95,22 @@ def _load_t5_weight_map(path: str):
     with open(path, 'r') as f:
         return json.load(f)
 
-
 def load_pipeline(device: str = "cuda"):
     """
     Loads model blueprints and initializes schedulers based on a pre-computed static schedule.
     Returns:
         dict: mapping model names to InferenceScheduler instances.
     """
-    # Point to original jitloader directory for model weights
-    clip_path = "../../ComfyUI/jitloader/clip/model.safetensors"
-    t5_path = "../../ComfyUI/jitloader/t5/config.json"
-    vae_path = "../../ComfyUI/jitloader/vae/ae.safetensors"
-    flux_path = "../../ComfyUI/jitloader/transformer/flux1-dev.safetensors"
+    schedules_dir = "schedules"
 
-    # --- Create Model Blueprints on 'meta' device ---
-    # clip_config = CLIPTextConfig(**_load_clip_config(clip_path))
-    # clip_blueprint = CLIPTextModel(clip_config).to("meta")
+    # --- Load Pre-built Model Blueprints ---
+    print("Loading pre-built model blueprints...")
+    clip_blueprint = torch.load(f"{schedules_dir}/clip_blueprint.pt")
+    t5_blueprint = torch.load(f"{schedules_dir}/t5_blueprint.pt")
+    vae_blueprint = torch.load(f"{schedules_dir}/vae_blueprint.pt")
+    flux_blueprint = torch.load(f"{schedules_dir}/flux_blueprint.pt")
+    print("...blueprints loaded successfully.")
 
-    # print('loaded clip')
-    # t5_config_dict = _load_t5_config(t5_path)
-    # t5_config = T5Config.from_dict(t5_config_dict)
-    # t5_config.use_cache = False
-    # t5_blueprint = T5EncoderModel(t5_config).to("meta")
-
-    # print('loaded t5')
-    # vae_config = _load_vae_model_config()
-    # vae_blueprint = AutoencoderKL(**vae_config).to("meta")
-
-    # print('loaded vae')
-    # flux_config = _load_flux_model_config()
-
-    # flux_blueprint = Flux(**flux_config, operations=ops.disable_weight_init).to("meta")
-
-
-
-# --- Create Model Blueprints on 'meta' device ---
-    with torch.device("meta"):
-        clip_config = CLIPTextConfig(**_load_clip_config(clip_path))
-        clip_blueprint = CLIPTextModel(clip_config)
-
-        t5_config_dict = _load_t5_config(t5_path)
-        t5_config = T5Config.from_dict(t5_config_dict)
-        t5_config.use_cache = False
-        t5_blueprint = T5EncoderModel(t5_config)
-
-        vae_config = _load_vae_model_config()
-        vae_blueprint = AutoencoderKL(**vae_config)
-
-        flux_config = _load_flux_model_config()
-        # The ops.disable_weight_init is a good custom safety, but the 'meta'
-        # device context is the primary mechanism that prevents allocation.
-        flux_blueprint = Flux(**flux_config, operations=ops.disable_weight_init)
-
-
-    print('loaded all models')
     # --- Initialize Schedulers based on the static schedule ---
     schedules_dir = "schedules"
     
@@ -191,7 +153,7 @@ def load_pipeline(device: str = "cuda"):
         "t5": t5_scheduler,
         "vae": vae_scheduler,
         "flux": flux_scheduler,
-    }
+    }, cuda_allocator
 
 
 if __name__ == "__main__":

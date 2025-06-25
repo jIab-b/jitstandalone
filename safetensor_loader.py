@@ -95,6 +95,19 @@ class SafetensorLoader:
         
         return header[name]
 
+    def get_tensor_filename(self, name: str) -> str:
+        """
+        Returns the filename where a specific tensor is stored.
+        Handles both single-file and sharded models.
+        """
+        if self.weight_map:
+            if name not in self.weight_map:
+                raise KeyError(f"Tensor '{name}' not found in the weight map.")
+            return self.weight_map[name]
+        else:
+            # For single-file models, the "filename" is the basename of the full path
+            return os.path.basename(self.path)
+
     def load_tensor_into(self, name: str, buffer: torch.Tensor):
         """
         Loads a tensor from disk directly into a pre-allocated buffer using a

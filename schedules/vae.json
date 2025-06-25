@@ -26,7 +26,8 @@
                         "offsets": [
                             2048,
                             296960
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.conv_in.bias",
@@ -37,7 +38,8 @@
                         "offsets": [
                             0,
                             2048
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     }
                 ]
             },
@@ -55,7 +57,8 @@
                         "offsets": [
                             150963212,
                             150965260
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.3.block.0.norm1.bias",
@@ -66,7 +69,8 @@
                         "offsets": [
                             150961164,
                             150963212
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.3.block.0.conv1.weight",
@@ -80,7 +84,8 @@
                         "offsets": [
                             132084748,
                             141521932
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.3.block.0.conv1.bias",
@@ -91,7 +96,8 @@
                         "offsets": [
                             132082700,
                             132084748
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.3.block.0.norm2.weight",
@@ -102,7 +108,8 @@
                         "offsets": [
                             150967308,
                             150969356
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.3.block.0.norm2.bias",
@@ -113,7 +120,8 @@
                         "offsets": [
                             150965260,
                             150967308
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.3.block.0.conv2.weight",
@@ -127,7 +135,8 @@
                         "offsets": [
                             141523980,
                             150961164
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.3.block.0.conv2.bias",
@@ -138,7 +147,8 @@
                         "offsets": [
                             141521932,
                             141523980
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     }
                 ]
             },
@@ -156,7 +166,8 @@
                         "offsets": [
                             169849868,
                             169851916
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.3.block.1.norm1.bias",
@@ -167,7 +178,8 @@
                         "offsets": [
                             169847820,
                             169849868
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.3.block.1.conv1.weight",
@@ -181,7 +193,8 @@
                         "offsets": [
                             150971404,
                             160408588
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.3.block.1.conv1.bias",
@@ -192,7 +205,8 @@
                         "offsets": [
                             150969356,
                             150971404
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.3.block.1.norm2.weight",
@@ -203,7 +217,8 @@
                         "offsets": [
                             169853964,
                             169856012
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.3.block.1.norm2.bias",
@@ -214,7 +229,8 @@
                         "offsets": [
                             169851916,
                             169853964
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.3.block.1.conv2.weight",
@@ -228,7 +244,8 @@
                         "offsets": [
                             160410636,
                             169847820
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.3.block.1.conv2.bias",
@@ -239,7 +256,8 @@
                         "offsets": [
                             160408588,
                             160410636
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     }
                 ]
             },
@@ -257,7 +275,8 @@
                         "offsets": [
                             188736524,
                             188738572
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.3.block.2.norm1.bias",
@@ -268,7 +287,8 @@
                         "offsets": [
                             188734476,
                             188736524
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.3.block.2.conv1.weight",
@@ -282,7 +302,8 @@
                         "offsets": [
                             169858060,
                             179295244
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.3.block.2.conv1.bias",
@@ -293,7 +314,8 @@
                         "offsets": [
                             169856012,
                             169858060
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.3.block.2.norm2.weight",
@@ -304,7 +326,8 @@
                         "offsets": [
                             188740620,
                             188742668
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.3.block.2.norm2.bias",
@@ -315,7 +338,8 @@
                         "offsets": [
                             188738572,
                             188740620
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.3.block.2.conv2.weight",
@@ -329,7 +353,8 @@
                         "offsets": [
                             179297292,
                             188734476
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.3.block.2.conv2.bias",
@@ -340,7 +365,8 @@
                         "offsets": [
                             179295244,
                             179297292
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     }
                 ]
             },
@@ -358,7 +384,8 @@
                         "offsets": [
                             84864012,
                             84866060
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.2.block.0.norm1.bias",
@@ -369,7 +396,8 @@
                         "offsets": [
                             84861964,
                             84864012
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.2.block.0.conv1.weight",
@@ -383,7 +411,8 @@
                         "offsets": [
                             65985548,
                             75422732
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.2.block.0.conv1.bias",
@@ -394,7 +423,8 @@
                         "offsets": [
                             65983500,
                             65985548
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.2.block.0.norm2.weight",
@@ -405,7 +435,8 @@
                         "offsets": [
                             84868108,
                             84870156
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.2.block.0.norm2.bias",
@@ -416,7 +447,8 @@
                         "offsets": [
                             84866060,
                             84868108
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.2.block.0.conv2.weight",
@@ -430,7 +462,8 @@
                         "offsets": [
                             75424780,
                             84861964
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.2.block.0.conv2.bias",
@@ -441,7 +474,8 @@
                         "offsets": [
                             75422732,
                             75424780
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     }
                 ]
             },
@@ -459,7 +493,8 @@
                         "offsets": [
                             103750668,
                             103752716
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.2.block.1.norm1.bias",
@@ -470,7 +505,8 @@
                         "offsets": [
                             103748620,
                             103750668
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.2.block.1.conv1.weight",
@@ -484,7 +520,8 @@
                         "offsets": [
                             84872204,
                             94309388
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.2.block.1.conv1.bias",
@@ -495,7 +532,8 @@
                         "offsets": [
                             84870156,
                             84872204
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.2.block.1.norm2.weight",
@@ -506,7 +544,8 @@
                         "offsets": [
                             103754764,
                             103756812
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.2.block.1.norm2.bias",
@@ -517,7 +556,8 @@
                         "offsets": [
                             103752716,
                             103754764
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.2.block.1.conv2.weight",
@@ -531,7 +571,8 @@
                         "offsets": [
                             94311436,
                             103748620
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.2.block.1.conv2.bias",
@@ -542,7 +583,8 @@
                         "offsets": [
                             94309388,
                             94311436
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     }
                 ]
             },
@@ -560,7 +602,8 @@
                         "offsets": [
                             122637324,
                             122639372
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.2.block.2.norm1.bias",
@@ -571,7 +614,8 @@
                         "offsets": [
                             122635276,
                             122637324
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.2.block.2.conv1.weight",
@@ -585,7 +629,8 @@
                         "offsets": [
                             103758860,
                             113196044
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.2.block.2.conv1.bias",
@@ -596,7 +641,8 @@
                         "offsets": [
                             103756812,
                             103758860
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.2.block.2.norm2.weight",
@@ -607,7 +653,8 @@
                         "offsets": [
                             122641420,
                             122643468
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.2.block.2.norm2.bias",
@@ -618,7 +665,8 @@
                         "offsets": [
                             122639372,
                             122641420
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.2.block.2.conv2.weight",
@@ -632,7 +680,8 @@
                         "offsets": [
                             113198092,
                             122635276
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.2.block.2.conv2.bias",
@@ -643,7 +692,8 @@
                         "offsets": [
                             113196044,
                             113198092
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     }
                 ]
             },
@@ -661,7 +711,8 @@
                         "offsets": [
                             54169612,
                             54171660
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.0.norm1.bias",
@@ -672,7 +723,8 @@
                         "offsets": [
                             54167564,
                             54169612
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.0.conv1.weight",
@@ -686,7 +738,8 @@
                         "offsets": [
                             46563340,
                             51281932
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.0.conv1.bias",
@@ -697,7 +750,8 @@
                         "offsets": [
                             46562316,
                             46563340
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.0.norm2.weight",
@@ -708,7 +762,8 @@
                         "offsets": [
                             54172684,
                             54173708
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.0.norm2.bias",
@@ -719,7 +774,8 @@
                         "offsets": [
                             54171660,
                             54172684
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.0.conv2.weight",
@@ -733,7 +789,8 @@
                         "offsets": [
                             51282956,
                             53642252
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.0.conv2.bias",
@@ -744,7 +801,8 @@
                         "offsets": [
                             51281932,
                             51282956
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.0.nin_shortcut.weight",
@@ -758,7 +816,8 @@
                         "offsets": [
                             53643276,
                             54167564
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.0.nin_shortcut.bias",
@@ -769,7 +828,8 @@
                         "offsets": [
                             53642252,
                             53643276
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     }
                 ]
             },
@@ -787,7 +847,8 @@
                         "offsets": [
                             58895372,
                             58896396
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.1.norm1.bias",
@@ -798,7 +859,8 @@
                         "offsets": [
                             58894348,
                             58895372
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.1.conv1.weight",
@@ -812,7 +874,8 @@
                         "offsets": [
                             54174732,
                             56534028
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.1.conv1.bias",
@@ -823,7 +886,8 @@
                         "offsets": [
                             54173708,
                             54174732
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.1.norm2.weight",
@@ -834,7 +898,8 @@
                         "offsets": [
                             58897420,
                             58898444
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.1.norm2.bias",
@@ -845,7 +910,8 @@
                         "offsets": [
                             58896396,
                             58897420
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.1.conv2.weight",
@@ -859,7 +925,8 @@
                         "offsets": [
                             56535052,
                             58894348
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.1.conv2.bias",
@@ -870,7 +937,8 @@
                         "offsets": [
                             56534028,
                             56535052
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     }
                 ]
             },
@@ -888,7 +956,8 @@
                         "offsets": [
                             63620108,
                             63621132
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.2.norm1.bias",
@@ -899,7 +968,8 @@
                         "offsets": [
                             63619084,
                             63620108
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.2.conv1.weight",
@@ -913,7 +983,8 @@
                         "offsets": [
                             58899468,
                             61258764
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.2.conv1.bias",
@@ -924,7 +995,8 @@
                         "offsets": [
                             58898444,
                             58899468
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.2.norm2.weight",
@@ -935,7 +1007,8 @@
                         "offsets": [
                             63622156,
                             63623180
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.2.norm2.bias",
@@ -946,7 +1019,8 @@
                         "offsets": [
                             63621132,
                             63622156
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.2.conv2.weight",
@@ -960,7 +1034,8 @@
                         "offsets": [
                             61259788,
                             63619084
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.1.block.2.conv2.bias",
@@ -971,7 +1046,8 @@
                         "offsets": [
                             61258764,
                             61259788
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     }
                 ]
             },
@@ -989,7 +1065,8 @@
                         "offsets": [
                             44194828,
                             44195852
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.0.norm1.bias",
@@ -1000,7 +1077,8 @@
                         "offsets": [
                             44193804,
                             44194828
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.0.conv1.weight",
@@ -1014,7 +1092,8 @@
                         "offsets": [
                             42292236,
                             43471884
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.0.conv1.bias",
@@ -1025,7 +1104,8 @@
                         "offsets": [
                             42291724,
                             42292236
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.0.norm2.weight",
@@ -1036,7 +1116,8 @@
                         "offsets": [
                             44196364,
                             44196876
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.0.norm2.bias",
@@ -1047,7 +1128,8 @@
                         "offsets": [
                             44195852,
                             44196364
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.0.conv2.weight",
@@ -1061,7 +1143,8 @@
                         "offsets": [
                             43472396,
                             44062220
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.0.conv2.bias",
@@ -1072,7 +1155,8 @@
                         "offsets": [
                             43471884,
                             43472396
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.0.nin_shortcut.weight",
@@ -1086,7 +1170,8 @@
                         "offsets": [
                             44062732,
                             44193804
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.0.nin_shortcut.bias",
@@ -1097,7 +1182,8 @@
                         "offsets": [
                             44062220,
                             44062732
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     }
                 ]
             },
@@ -1115,7 +1201,8 @@
                         "offsets": [
                             45378060,
                             45378572
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.1.norm1.bias",
@@ -1126,7 +1213,8 @@
                         "offsets": [
                             45377548,
                             45378060
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.1.conv1.weight",
@@ -1140,7 +1228,8 @@
                         "offsets": [
                             44197388,
                             44787212
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.1.conv1.bias",
@@ -1151,7 +1240,8 @@
                         "offsets": [
                             44196876,
                             44197388
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.1.norm2.weight",
@@ -1162,7 +1252,8 @@
                         "offsets": [
                             45379084,
                             45379596
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.1.norm2.bias",
@@ -1173,7 +1264,8 @@
                         "offsets": [
                             45378572,
                             45379084
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.1.conv2.weight",
@@ -1187,7 +1279,8 @@
                         "offsets": [
                             44787724,
                             45377548
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.1.conv2.bias",
@@ -1198,7 +1291,8 @@
                         "offsets": [
                             44787212,
                             44787724
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     }
                 ]
             },
@@ -1216,7 +1310,8 @@
                         "offsets": [
                             46560780,
                             46561292
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.2.norm1.bias",
@@ -1227,7 +1322,8 @@
                         "offsets": [
                             46560268,
                             46560780
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.2.conv1.weight",
@@ -1241,7 +1337,8 @@
                         "offsets": [
                             45380108,
                             45969932
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.2.conv1.bias",
@@ -1252,7 +1349,8 @@
                         "offsets": [
                             45379596,
                             45380108
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.2.norm2.weight",
@@ -1263,7 +1361,8 @@
                         "offsets": [
                             46561804,
                             46562316
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.2.norm2.bias",
@@ -1274,7 +1373,8 @@
                         "offsets": [
                             46561292,
                             46561804
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.2.conv2.weight",
@@ -1288,7 +1388,8 @@
                         "offsets": [
                             45970444,
                             46560268
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.up.0.block.2.conv2.bias",
@@ -1299,7 +1400,8 @@
                         "offsets": [
                             45969932,
                             45970444
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     }
                 ]
             },
@@ -1317,7 +1419,8 @@
                         "offsets": [
                             42291212,
                             42291724
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.norm_out.bias",
@@ -1328,7 +1431,8 @@
                         "offsets": [
                             42290700,
                             42291212
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     }
                 ]
             },
@@ -1349,7 +1453,8 @@
                         "offsets": [
                             296972,
                             310796
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     },
                     {
                         "name": "decoder.conv_out.bias",
@@ -1360,7 +1465,8 @@
                         "offsets": [
                             296960,
                             296972
-                        ]
+                        ],
+                        "filename": "ae.safetensors"
                     }
                 ]
             }

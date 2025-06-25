@@ -24,7 +24,8 @@
                         "offsets": [
                             118272,
                             76008960
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.embeddings.position_embedding.weight",
@@ -36,7 +37,8 @@
                         "offsets": [
                             0,
                             118272
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     }
                 ]
             },
@@ -55,7 +57,8 @@
                         "offsets": [
                             85461504,
                             86641152
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.0.self_attn.k_proj.bias",
@@ -66,7 +69,8 @@
                         "offsets": [
                             85459968,
                             85461504
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.0.self_attn.v_proj.weight",
@@ -78,7 +82,8 @@
                         "offsets": [
                             89005056,
                             90184704
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.0.self_attn.v_proj.bias",
@@ -89,7 +94,8 @@
                         "offsets": [
                             89003520,
                             89005056
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.0.self_attn.q_proj.weight",
@@ -101,7 +107,8 @@
                         "offsets": [
                             87823872,
                             89003520
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.0.self_attn.q_proj.bias",
@@ -112,7 +119,8 @@
                         "offsets": [
                             87822336,
                             87823872
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.0.self_attn.out_proj.weight",
@@ -124,7 +132,8 @@
                         "offsets": [
                             86642688,
                             87822336
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.0.self_attn.out_proj.bias",
@@ -135,7 +144,8 @@
                         "offsets": [
                             86641152,
                             86642688
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.0.layer_norm1.weight",
@@ -146,7 +156,8 @@
                         "offsets": [
                             76010496,
                             76012032
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.0.layer_norm1.bias",
@@ -157,7 +168,8 @@
                         "offsets": [
                             76008960,
                             76010496
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.0.mlp.fc1.weight",
@@ -169,7 +181,8 @@
                         "offsets": [
                             76021248,
                             80739840
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.0.mlp.fc1.bias",
@@ -180,7 +193,8 @@
                         "offsets": [
                             76015104,
                             76021248
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.0.mlp.fc2.weight",
@@ -192,7 +206,8 @@
                         "offsets": [
                             80741376,
                             85459968
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.0.mlp.fc2.bias",
@@ -203,7 +218,8 @@
                         "offsets": [
                             80739840,
                             80741376
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.0.layer_norm2.weight",
@@ -214,7 +230,8 @@
                         "offsets": [
                             76013568,
                             76015104
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.0.layer_norm2.bias",
@@ -225,7 +242,8 @@
                         "offsets": [
                             76012032,
                             76013568
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     }
                 ]
             },
@@ -244,7 +262,8 @@
                         "offsets": [
                             99637248,
                             100816896
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.1.self_attn.k_proj.bias",
@@ -255,7 +274,8 @@
                         "offsets": [
                             99635712,
                             99637248
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.1.self_attn.v_proj.weight",
@@ -267,7 +287,8 @@
                         "offsets": [
                             103180800,
                             104360448
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.1.self_attn.v_proj.bias",
@@ -278,7 +299,8 @@
                         "offsets": [
                             103179264,
                             103180800
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.1.self_attn.q_proj.weight",
@@ -290,7 +312,8 @@
                         "offsets": [
                             101999616,
                             103179264
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.1.self_attn.q_proj.bias",
@@ -301,7 +324,8 @@
                         "offsets": [
                             101998080,
                             101999616
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.1.self_attn.out_proj.weight",
@@ -313,7 +337,8 @@
                         "offsets": [
                             100818432,
                             101998080
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.1.self_attn.out_proj.bias",
@@ -324,7 +349,8 @@
                         "offsets": [
                             100816896,
                             100818432
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.1.layer_norm1.weight",
@@ -335,7 +361,8 @@
                         "offsets": [
                             90186240,
                             90187776
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.1.layer_norm1.bias",
@@ -346,7 +373,8 @@
                         "offsets": [
                             90184704,
                             90186240
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.1.mlp.fc1.weight",
@@ -358,7 +386,8 @@
                         "offsets": [
                             90196992,
                             94915584
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.1.mlp.fc1.bias",
@@ -369,7 +398,8 @@
                         "offsets": [
                             90190848,
                             90196992
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.1.mlp.fc2.weight",
@@ -381,7 +411,8 @@
                         "offsets": [
                             94917120,
                             99635712
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.1.mlp.fc2.bias",
@@ -392,7 +423,8 @@
                         "offsets": [
                             94915584,
                             94917120
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.1.layer_norm2.weight",
@@ -403,7 +435,8 @@
                         "offsets": [
                             90189312,
                             90190848
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.1.layer_norm2.bias",
@@ -414,7 +447,8 @@
                         "offsets": [
                             90187776,
                             90189312
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     }
                 ]
             },
@@ -433,7 +467,8 @@
                         "offsets": [
                             142164480,
                             143344128
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.2.self_attn.k_proj.bias",
@@ -444,7 +479,8 @@
                         "offsets": [
                             142162944,
                             142164480
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.2.self_attn.v_proj.weight",
@@ -456,7 +492,8 @@
                         "offsets": [
                             145708032,
                             146887680
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.2.self_attn.v_proj.bias",
@@ -467,7 +504,8 @@
                         "offsets": [
                             145706496,
                             145708032
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.2.self_attn.q_proj.weight",
@@ -479,7 +517,8 @@
                         "offsets": [
                             144526848,
                             145706496
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.2.self_attn.q_proj.bias",
@@ -490,7 +529,8 @@
                         "offsets": [
                             144525312,
                             144526848
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.2.self_attn.out_proj.weight",
@@ -502,7 +542,8 @@
                         "offsets": [
                             143345664,
                             144525312
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.2.self_attn.out_proj.bias",
@@ -513,7 +554,8 @@
                         "offsets": [
                             143344128,
                             143345664
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.2.layer_norm1.weight",
@@ -524,7 +566,8 @@
                         "offsets": [
                             132713472,
                             132715008
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.2.layer_norm1.bias",
@@ -535,7 +578,8 @@
                         "offsets": [
                             132711936,
                             132713472
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.2.mlp.fc1.weight",
@@ -547,7 +591,8 @@
                         "offsets": [
                             132724224,
                             137442816
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.2.mlp.fc1.bias",
@@ -558,7 +603,8 @@
                         "offsets": [
                             132718080,
                             132724224
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.2.mlp.fc2.weight",
@@ -570,7 +616,8 @@
                         "offsets": [
                             137444352,
                             142162944
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.2.mlp.fc2.bias",
@@ -581,7 +628,8 @@
                         "offsets": [
                             137442816,
                             137444352
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.2.layer_norm2.weight",
@@ -592,7 +640,8 @@
                         "offsets": [
                             132716544,
                             132718080
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.2.layer_norm2.bias",
@@ -603,7 +652,8 @@
                         "offsets": [
                             132715008,
                             132716544
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     }
                 ]
             },
@@ -622,7 +672,8 @@
                         "offsets": [
                             156340224,
                             157519872
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.3.self_attn.k_proj.bias",
@@ -633,7 +684,8 @@
                         "offsets": [
                             156338688,
                             156340224
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.3.self_attn.v_proj.weight",
@@ -645,7 +697,8 @@
                         "offsets": [
                             159883776,
                             161063424
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.3.self_attn.v_proj.bias",
@@ -656,7 +709,8 @@
                         "offsets": [
                             159882240,
                             159883776
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.3.self_attn.q_proj.weight",
@@ -668,7 +722,8 @@
                         "offsets": [
                             158702592,
                             159882240
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.3.self_attn.q_proj.bias",
@@ -679,7 +734,8 @@
                         "offsets": [
                             158701056,
                             158702592
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.3.self_attn.out_proj.weight",
@@ -691,7 +747,8 @@
                         "offsets": [
                             157521408,
                             158701056
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.3.self_attn.out_proj.bias",
@@ -702,7 +759,8 @@
                         "offsets": [
                             157519872,
                             157521408
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.3.layer_norm1.weight",
@@ -713,7 +771,8 @@
                         "offsets": [
                             146889216,
                             146890752
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.3.layer_norm1.bias",
@@ -724,7 +783,8 @@
                         "offsets": [
                             146887680,
                             146889216
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.3.mlp.fc1.weight",
@@ -736,7 +796,8 @@
                         "offsets": [
                             146899968,
                             151618560
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.3.mlp.fc1.bias",
@@ -747,7 +808,8 @@
                         "offsets": [
                             146893824,
                             146899968
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.3.mlp.fc2.weight",
@@ -759,7 +821,8 @@
                         "offsets": [
                             151620096,
                             156338688
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.3.mlp.fc2.bias",
@@ -770,7 +833,8 @@
                         "offsets": [
                             151618560,
                             151620096
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.3.layer_norm2.weight",
@@ -781,7 +845,8 @@
                         "offsets": [
                             146892288,
                             146893824
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.3.layer_norm2.bias",
@@ -792,7 +857,8 @@
                         "offsets": [
                             146890752,
                             146892288
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     }
                 ]
             },
@@ -811,7 +877,8 @@
                         "offsets": [
                             170515968,
                             171695616
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.4.self_attn.k_proj.bias",
@@ -822,7 +889,8 @@
                         "offsets": [
                             170514432,
                             170515968
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.4.self_attn.v_proj.weight",
@@ -834,7 +902,8 @@
                         "offsets": [
                             174059520,
                             175239168
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.4.self_attn.v_proj.bias",
@@ -845,7 +914,8 @@
                         "offsets": [
                             174057984,
                             174059520
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.4.self_attn.q_proj.weight",
@@ -857,7 +927,8 @@
                         "offsets": [
                             172878336,
                             174057984
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.4.self_attn.q_proj.bias",
@@ -868,7 +939,8 @@
                         "offsets": [
                             172876800,
                             172878336
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.4.self_attn.out_proj.weight",
@@ -880,7 +952,8 @@
                         "offsets": [
                             171697152,
                             172876800
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.4.self_attn.out_proj.bias",
@@ -891,7 +964,8 @@
                         "offsets": [
                             171695616,
                             171697152
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.4.layer_norm1.weight",
@@ -902,7 +976,8 @@
                         "offsets": [
                             161064960,
                             161066496
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.4.layer_norm1.bias",
@@ -913,7 +988,8 @@
                         "offsets": [
                             161063424,
                             161064960
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.4.mlp.fc1.weight",
@@ -925,7 +1001,8 @@
                         "offsets": [
                             161075712,
                             165794304
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.4.mlp.fc1.bias",
@@ -936,7 +1013,8 @@
                         "offsets": [
                             161069568,
                             161075712
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.4.mlp.fc2.weight",
@@ -948,7 +1026,8 @@
                         "offsets": [
                             165795840,
                             170514432
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.4.mlp.fc2.bias",
@@ -959,7 +1038,8 @@
                         "offsets": [
                             165794304,
                             165795840
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.4.layer_norm2.weight",
@@ -970,7 +1050,8 @@
                         "offsets": [
                             161068032,
                             161069568
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.4.layer_norm2.bias",
@@ -981,7 +1062,8 @@
                         "offsets": [
                             161066496,
                             161068032
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     }
                 ]
             },
@@ -1000,7 +1082,8 @@
                         "offsets": [
                             184691712,
                             185871360
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.5.self_attn.k_proj.bias",
@@ -1011,7 +1094,8 @@
                         "offsets": [
                             184690176,
                             184691712
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.5.self_attn.v_proj.weight",
@@ -1023,7 +1107,8 @@
                         "offsets": [
                             188235264,
                             189414912
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.5.self_attn.v_proj.bias",
@@ -1034,7 +1119,8 @@
                         "offsets": [
                             188233728,
                             188235264
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.5.self_attn.q_proj.weight",
@@ -1046,7 +1132,8 @@
                         "offsets": [
                             187054080,
                             188233728
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.5.self_attn.q_proj.bias",
@@ -1057,7 +1144,8 @@
                         "offsets": [
                             187052544,
                             187054080
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.5.self_attn.out_proj.weight",
@@ -1069,7 +1157,8 @@
                         "offsets": [
                             185872896,
                             187052544
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.5.self_attn.out_proj.bias",
@@ -1080,7 +1169,8 @@
                         "offsets": [
                             185871360,
                             185872896
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.5.layer_norm1.weight",
@@ -1091,7 +1181,8 @@
                         "offsets": [
                             175240704,
                             175242240
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.5.layer_norm1.bias",
@@ -1102,7 +1193,8 @@
                         "offsets": [
                             175239168,
                             175240704
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.5.mlp.fc1.weight",
@@ -1114,7 +1206,8 @@
                         "offsets": [
                             175251456,
                             179970048
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.5.mlp.fc1.bias",
@@ -1125,7 +1218,8 @@
                         "offsets": [
                             175245312,
                             175251456
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.5.mlp.fc2.weight",
@@ -1137,7 +1231,8 @@
                         "offsets": [
                             179971584,
                             184690176
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.5.mlp.fc2.bias",
@@ -1148,7 +1243,8 @@
                         "offsets": [
                             179970048,
                             179971584
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.5.layer_norm2.weight",
@@ -1159,7 +1255,8 @@
                         "offsets": [
                             175243776,
                             175245312
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.5.layer_norm2.bias",
@@ -1170,7 +1267,8 @@
                         "offsets": [
                             175242240,
                             175243776
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     }
                 ]
             },
@@ -1189,7 +1287,8 @@
                         "offsets": [
                             198867456,
                             200047104
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.6.self_attn.k_proj.bias",
@@ -1200,7 +1299,8 @@
                         "offsets": [
                             198865920,
                             198867456
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.6.self_attn.v_proj.weight",
@@ -1212,7 +1312,8 @@
                         "offsets": [
                             202411008,
                             203590656
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.6.self_attn.v_proj.bias",
@@ -1223,7 +1324,8 @@
                         "offsets": [
                             202409472,
                             202411008
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.6.self_attn.q_proj.weight",
@@ -1235,7 +1337,8 @@
                         "offsets": [
                             201229824,
                             202409472
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.6.self_attn.q_proj.bias",
@@ -1246,7 +1349,8 @@
                         "offsets": [
                             201228288,
                             201229824
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.6.self_attn.out_proj.weight",
@@ -1258,7 +1362,8 @@
                         "offsets": [
                             200048640,
                             201228288
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.6.self_attn.out_proj.bias",
@@ -1269,7 +1374,8 @@
                         "offsets": [
                             200047104,
                             200048640
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.6.layer_norm1.weight",
@@ -1280,7 +1386,8 @@
                         "offsets": [
                             189416448,
                             189417984
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.6.layer_norm1.bias",
@@ -1291,7 +1398,8 @@
                         "offsets": [
                             189414912,
                             189416448
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.6.mlp.fc1.weight",
@@ -1303,7 +1411,8 @@
                         "offsets": [
                             189427200,
                             194145792
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.6.mlp.fc1.bias",
@@ -1314,7 +1423,8 @@
                         "offsets": [
                             189421056,
                             189427200
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.6.mlp.fc2.weight",
@@ -1326,7 +1436,8 @@
                         "offsets": [
                             194147328,
                             198865920
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.6.mlp.fc2.bias",
@@ -1337,7 +1448,8 @@
                         "offsets": [
                             194145792,
                             194147328
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.6.layer_norm2.weight",
@@ -1348,7 +1460,8 @@
                         "offsets": [
                             189419520,
                             189421056
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.6.layer_norm2.bias",
@@ -1359,7 +1472,8 @@
                         "offsets": [
                             189417984,
                             189419520
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     }
                 ]
             },
@@ -1378,7 +1492,8 @@
                         "offsets": [
                             213043200,
                             214222848
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.7.self_attn.k_proj.bias",
@@ -1389,7 +1504,8 @@
                         "offsets": [
                             213041664,
                             213043200
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.7.self_attn.v_proj.weight",
@@ -1401,7 +1517,8 @@
                         "offsets": [
                             216586752,
                             217766400
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.7.self_attn.v_proj.bias",
@@ -1412,7 +1529,8 @@
                         "offsets": [
                             216585216,
                             216586752
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.7.self_attn.q_proj.weight",
@@ -1424,7 +1542,8 @@
                         "offsets": [
                             215405568,
                             216585216
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.7.self_attn.q_proj.bias",
@@ -1435,7 +1554,8 @@
                         "offsets": [
                             215404032,
                             215405568
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.7.self_attn.out_proj.weight",
@@ -1447,7 +1567,8 @@
                         "offsets": [
                             214224384,
                             215404032
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.7.self_attn.out_proj.bias",
@@ -1458,7 +1579,8 @@
                         "offsets": [
                             214222848,
                             214224384
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.7.layer_norm1.weight",
@@ -1469,7 +1591,8 @@
                         "offsets": [
                             203592192,
                             203593728
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.7.layer_norm1.bias",
@@ -1480,7 +1603,8 @@
                         "offsets": [
                             203590656,
                             203592192
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.7.mlp.fc1.weight",
@@ -1492,7 +1616,8 @@
                         "offsets": [
                             203602944,
                             208321536
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.7.mlp.fc1.bias",
@@ -1503,7 +1628,8 @@
                         "offsets": [
                             203596800,
                             203602944
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.7.mlp.fc2.weight",
@@ -1515,7 +1641,8 @@
                         "offsets": [
                             208323072,
                             213041664
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.7.mlp.fc2.bias",
@@ -1526,7 +1653,8 @@
                         "offsets": [
                             208321536,
                             208323072
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.7.layer_norm2.weight",
@@ -1537,7 +1665,8 @@
                         "offsets": [
                             203595264,
                             203596800
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.7.layer_norm2.bias",
@@ -1548,7 +1677,8 @@
                         "offsets": [
                             203593728,
                             203595264
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     }
                 ]
             },
@@ -1567,7 +1697,8 @@
                         "offsets": [
                             227218944,
                             228398592
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.8.self_attn.k_proj.bias",
@@ -1578,7 +1709,8 @@
                         "offsets": [
                             227217408,
                             227218944
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.8.self_attn.v_proj.weight",
@@ -1590,7 +1722,8 @@
                         "offsets": [
                             230762496,
                             231942144
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.8.self_attn.v_proj.bias",
@@ -1601,7 +1734,8 @@
                         "offsets": [
                             230760960,
                             230762496
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.8.self_attn.q_proj.weight",
@@ -1613,7 +1747,8 @@
                         "offsets": [
                             229581312,
                             230760960
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.8.self_attn.q_proj.bias",
@@ -1624,7 +1759,8 @@
                         "offsets": [
                             229579776,
                             229581312
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.8.self_attn.out_proj.weight",
@@ -1636,7 +1772,8 @@
                         "offsets": [
                             228400128,
                             229579776
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.8.self_attn.out_proj.bias",
@@ -1647,7 +1784,8 @@
                         "offsets": [
                             228398592,
                             228400128
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.8.layer_norm1.weight",
@@ -1658,7 +1796,8 @@
                         "offsets": [
                             217767936,
                             217769472
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.8.layer_norm1.bias",
@@ -1669,7 +1808,8 @@
                         "offsets": [
                             217766400,
                             217767936
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.8.mlp.fc1.weight",
@@ -1681,7 +1821,8 @@
                         "offsets": [
                             217778688,
                             222497280
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.8.mlp.fc1.bias",
@@ -1692,7 +1833,8 @@
                         "offsets": [
                             217772544,
                             217778688
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.8.mlp.fc2.weight",
@@ -1704,7 +1846,8 @@
                         "offsets": [
                             222498816,
                             227217408
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.8.mlp.fc2.bias",
@@ -1715,7 +1858,8 @@
                         "offsets": [
                             222497280,
                             222498816
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.8.layer_norm2.weight",
@@ -1726,7 +1870,8 @@
                         "offsets": [
                             217771008,
                             217772544
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.8.layer_norm2.bias",
@@ -1737,7 +1882,8 @@
                         "offsets": [
                             217769472,
                             217771008
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     }
                 ]
             },
@@ -1756,7 +1902,8 @@
                         "offsets": [
                             241394688,
                             242574336
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.9.self_attn.k_proj.bias",
@@ -1767,7 +1914,8 @@
                         "offsets": [
                             241393152,
                             241394688
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.9.self_attn.v_proj.weight",
@@ -1779,7 +1927,8 @@
                         "offsets": [
                             244938240,
                             246117888
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.9.self_attn.v_proj.bias",
@@ -1790,7 +1939,8 @@
                         "offsets": [
                             244936704,
                             244938240
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.9.self_attn.q_proj.weight",
@@ -1802,7 +1952,8 @@
                         "offsets": [
                             243757056,
                             244936704
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.9.self_attn.q_proj.bias",
@@ -1813,7 +1964,8 @@
                         "offsets": [
                             243755520,
                             243757056
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.9.self_attn.out_proj.weight",
@@ -1825,7 +1977,8 @@
                         "offsets": [
                             242575872,
                             243755520
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.9.self_attn.out_proj.bias",
@@ -1836,7 +1989,8 @@
                         "offsets": [
                             242574336,
                             242575872
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.9.layer_norm1.weight",
@@ -1847,7 +2001,8 @@
                         "offsets": [
                             231943680,
                             231945216
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.9.layer_norm1.bias",
@@ -1858,7 +2013,8 @@
                         "offsets": [
                             231942144,
                             231943680
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.9.mlp.fc1.weight",
@@ -1870,7 +2026,8 @@
                         "offsets": [
                             231954432,
                             236673024
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.9.mlp.fc1.bias",
@@ -1881,7 +2038,8 @@
                         "offsets": [
                             231948288,
                             231954432
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.9.mlp.fc2.weight",
@@ -1893,7 +2051,8 @@
                         "offsets": [
                             236674560,
                             241393152
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.9.mlp.fc2.bias",
@@ -1904,7 +2063,8 @@
                         "offsets": [
                             236673024,
                             236674560
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.9.layer_norm2.weight",
@@ -1915,7 +2075,8 @@
                         "offsets": [
                             231946752,
                             231948288
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.9.layer_norm2.bias",
@@ -1926,7 +2087,8 @@
                         "offsets": [
                             231945216,
                             231946752
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     }
                 ]
             },
@@ -1945,7 +2107,8 @@
                         "offsets": [
                             113812992,
                             114992640
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.10.self_attn.k_proj.bias",
@@ -1956,7 +2119,8 @@
                         "offsets": [
                             113811456,
                             113812992
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.10.self_attn.v_proj.weight",
@@ -1968,7 +2132,8 @@
                         "offsets": [
                             117356544,
                             118536192
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.10.self_attn.v_proj.bias",
@@ -1979,7 +2144,8 @@
                         "offsets": [
                             117355008,
                             117356544
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.10.self_attn.q_proj.weight",
@@ -1991,7 +2157,8 @@
                         "offsets": [
                             116175360,
                             117355008
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.10.self_attn.q_proj.bias",
@@ -2002,7 +2169,8 @@
                         "offsets": [
                             116173824,
                             116175360
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.10.self_attn.out_proj.weight",
@@ -2014,7 +2182,8 @@
                         "offsets": [
                             114994176,
                             116173824
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.10.self_attn.out_proj.bias",
@@ -2025,7 +2194,8 @@
                         "offsets": [
                             114992640,
                             114994176
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.10.layer_norm1.weight",
@@ -2036,7 +2206,8 @@
                         "offsets": [
                             104361984,
                             104363520
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.10.layer_norm1.bias",
@@ -2047,7 +2218,8 @@
                         "offsets": [
                             104360448,
                             104361984
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.10.mlp.fc1.weight",
@@ -2059,7 +2231,8 @@
                         "offsets": [
                             104372736,
                             109091328
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.10.mlp.fc1.bias",
@@ -2070,7 +2243,8 @@
                         "offsets": [
                             104366592,
                             104372736
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.10.mlp.fc2.weight",
@@ -2082,7 +2256,8 @@
                         "offsets": [
                             109092864,
                             113811456
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.10.mlp.fc2.bias",
@@ -2093,7 +2268,8 @@
                         "offsets": [
                             109091328,
                             109092864
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.10.layer_norm2.weight",
@@ -2104,7 +2280,8 @@
                         "offsets": [
                             104365056,
                             104366592
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.10.layer_norm2.bias",
@@ -2115,7 +2292,8 @@
                         "offsets": [
                             104363520,
                             104365056
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     }
                 ]
             },
@@ -2134,7 +2312,8 @@
                         "offsets": [
                             127988736,
                             129168384
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.11.self_attn.k_proj.bias",
@@ -2145,7 +2324,8 @@
                         "offsets": [
                             127987200,
                             127988736
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.11.self_attn.v_proj.weight",
@@ -2157,7 +2337,8 @@
                         "offsets": [
                             131532288,
                             132711936
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.11.self_attn.v_proj.bias",
@@ -2168,7 +2349,8 @@
                         "offsets": [
                             131530752,
                             131532288
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.11.self_attn.q_proj.weight",
@@ -2180,7 +2362,8 @@
                         "offsets": [
                             130351104,
                             131530752
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.11.self_attn.q_proj.bias",
@@ -2191,7 +2374,8 @@
                         "offsets": [
                             130349568,
                             130351104
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.11.self_attn.out_proj.weight",
@@ -2203,7 +2387,8 @@
                         "offsets": [
                             129169920,
                             130349568
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.11.self_attn.out_proj.bias",
@@ -2214,7 +2399,8 @@
                         "offsets": [
                             129168384,
                             129169920
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.11.layer_norm1.weight",
@@ -2225,7 +2411,8 @@
                         "offsets": [
                             118537728,
                             118539264
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.11.layer_norm1.bias",
@@ -2236,7 +2423,8 @@
                         "offsets": [
                             118536192,
                             118537728
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.11.mlp.fc1.weight",
@@ -2248,7 +2436,8 @@
                         "offsets": [
                             118548480,
                             123267072
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.11.mlp.fc1.bias",
@@ -2259,7 +2448,8 @@
                         "offsets": [
                             118542336,
                             118548480
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.11.mlp.fc2.weight",
@@ -2271,7 +2461,8 @@
                         "offsets": [
                             123268608,
                             127987200
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.11.mlp.fc2.bias",
@@ -2282,7 +2473,8 @@
                         "offsets": [
                             123267072,
                             123268608
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.11.layer_norm2.weight",
@@ -2293,7 +2485,8 @@
                         "offsets": [
                             118540800,
                             118542336
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.encoder.layers.11.layer_norm2.bias",
@@ -2304,7 +2497,8 @@
                         "offsets": [
                             118539264,
                             118540800
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     }
                 ]
             },
@@ -2322,7 +2516,8 @@
                         "offsets": [
                             246119424,
                             246120960
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     },
                     {
                         "name": "text_model.final_layer_norm.bias",
@@ -2333,7 +2528,8 @@
                         "offsets": [
                             246117888,
                             246119424
-                        ]
+                        ],
+                        "filename": "model.safetensors"
                     }
                 ]
             }
